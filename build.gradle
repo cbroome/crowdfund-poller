@@ -1,9 +1,15 @@
 plugins {
     id 'java'
+    id 'application'
     id 'org.springframework.boot' version '1.5.8.RELEASE'
 
 }
 
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
