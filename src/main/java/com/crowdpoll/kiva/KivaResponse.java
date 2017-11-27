@@ -12,11 +12,22 @@ public class KivaResponse {
     protected ArrayList<KivaLoan> loans;
 
 
+    public ArrayList<KivaLoan> getLoans() {
+        return loans;
+    }
+
+    public void setLoans(ArrayList<KivaLoan> loans) {
+        this.loans = loans;
+    }
+
     @Override
     public String toString() {
         String rv = "Response{";
-        for(KivaLoan loan : loans) {
-            rv += loan.toString();
+
+        if (!loans.isEmpty()) {
+            for (KivaLoan loan : loans) {
+                rv += loan.toString();
+            }
         }
         rv += "}";
 
