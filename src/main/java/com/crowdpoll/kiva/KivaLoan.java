@@ -18,6 +18,9 @@ public class KivaLoan {
     protected String use;
 
 
+    protected  KivaImage image;
+
+
     public int getId() {
         return id;
     }
@@ -28,6 +31,10 @@ public class KivaLoan {
 
     public String getUse() {
         return use;
+    }
+
+    public KivaImage getImage() {
+        return image;
     }
 
     public void setId(int id) {
@@ -42,9 +49,15 @@ public class KivaLoan {
         this.use = use;
     }
 
+
+    public void setImage(KivaImage image) {
+        this.image = image;
+    }
+
+
     @Override
     public String toString() {
-        return "{ id: " + id + ", name: \"" + name + "\", use: \"" + use + "\"}";
+        return "{ id: " + id + ", image: \"" + image.getId() + "\", name: \"" + name + "\", use: \"" + use + "\"}";
     }
 
 

@@ -15,6 +15,7 @@ public class KivaAPI implements API {
 
         String url = "http://api.kivaws.org/v1/loans/search.json?status=fundraising";
 
+        // https://api.kivaws.org/v2/loans?limit=16&facets=true&type=lite&q=j:{"city_state":["Baltimore,MD"]}
 
         RestTemplate restTemplate = new RestTemplate();
         KivaResponse response = restTemplate.getForObject(
