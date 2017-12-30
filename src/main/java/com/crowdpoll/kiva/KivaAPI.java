@@ -19,7 +19,7 @@ public class KivaAPI implements API {
 
         RestTemplate restTemplate = new RestTemplate();
         KivaResponse response = restTemplate.getForObject(
-                "http://api.kivaws.org/v1/loans/search.json?status=fundraising",
+                url,
                 KivaResponse.class
         );
         log.info(response.toString());

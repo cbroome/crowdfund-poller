@@ -12,7 +12,13 @@ repositories {
 sourceCompatibility = 1.8
 
 dependencies {
+    compileOnly('org.projectlombok:lombok:1.16.18')
+
     compile("org.springframework.boot:spring-boot-starter-web")
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile("org.thymeleaf:thymeleaf-spring4")
     compile("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect")
+    compile("org.liquibase:liquibase-core")
+
+    runtime("org.postgresql:postgresql:42.1.4")
 }
