@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
-public class CampaignModel {
+public class Campaign {
 
 
     @Id
