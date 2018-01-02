@@ -28,6 +28,13 @@ public class KivaAPI implements API {
     }
 
 
+    public void pollForCampaigns() {
+
+        this.search();
+
+    }
+
+
 
 
 }

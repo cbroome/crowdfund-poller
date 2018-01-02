@@ -1,16 +1,14 @@
 package com.crowdpoll.models;
 
+
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
-public class Campaign {
+public class CampaignImage {
 
 
     @Id
@@ -19,15 +17,14 @@ public class Campaign {
 
 
     @NotNull
-    protected String summary;
-
-
-    @NotNull
     protected String url;
 
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "campaign_id")
+    protected Campaign campaign;
 
-    protected String description;
 
-
+    protected Boolean isPrimary;
 
 }

@@ -12,7 +12,7 @@ public class Application {
         SpringApplication.run(Application.class, args);
 
         KivaAPI ka = new KivaAPI();
-        ka.search();
+        ka.pollForCampaigns();
 
     }
 
