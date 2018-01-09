@@ -1,8 +1,10 @@
 package com.crowdpoll.apiTools;
 
+import java.util.ArrayList;
+
 public interface API {
 
-    void search();
+    <T> ArrayList<T> search();
 
     /**
      * Update the current campaigns based on the search query.

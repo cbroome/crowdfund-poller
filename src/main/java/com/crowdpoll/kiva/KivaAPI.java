@@ -5,17 +5,24 @@ import org.slf4j.LoggerFactory;
 import com.crowdpoll.apiTools.API;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.web.client.RestTemplate;
+import java.util.ArrayList;
+
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class KivaAPI implements API {
 
     private static final Logger log = LoggerFactory.getLogger(KivaAPI.class);
 
-    public void search() {
+    protected ArrayList<KivaLoan> campaigns;
 
-        String url = "http://api.kivaws.org/v1/loans/search.json?status=fundraising";
+    protected String queryString = "https://api.kivaws.org/v1/loans/search.json?status=fundraising&country_code=US&q=Baltimore";
 
-        // https://api.kivaws.org/v2/loans?limit=16&facets=true&type=lite&q=j:{"city_state":["Baltimore,MD"]}
+    protected String getQueryString() {
+        return queryString;
+    }
+
+    public ArrayList<KivaLoan> search() {
+       String url = this.getQueryString();
 
         RestTemplate restTemplate = new RestTemplate();
         KivaResponse response = restTemplate.getForObject(
@@ -24,13 +31,14 @@ public class KivaAPI implements API {
         );
         log.info(response.toString());
 
-
+        return response.getLoans();
     }
 
 
     public void pollForCampaigns() {
 
-        this.search();
+        ArrayList<KivaLoan> loans;
+        loans = this.search();
 
     }
 
