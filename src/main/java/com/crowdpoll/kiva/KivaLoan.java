@@ -2,15 +2,28 @@ package com.crowdpoll.kiva;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.validation.constraints.NotNull;
+
+@Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class KivaLoan {
 
+    @Id
     protected int id;
 
     /**
      * Name of the borrower
      */
+    @NotNull
     protected String name;
+
+
+    @NotNull
+    @JoinColumn(name="campaign_id")
+    protected int campaign;
 
     /**
      * Brief description of the loan's intent

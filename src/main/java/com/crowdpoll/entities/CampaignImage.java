@@ -1,12 +1,9 @@
-package com.crowdpoll.models;
+package com.crowdpoll.entities;
 
-
-import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@Data
 @Entity
 public class CampaignImage {
 
