@@ -1,29 +1,20 @@
-package com.crowdpoll.kiva;
+package com.crowdpoll.kiva.dao;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.validation.constraints.NotNull;
+import java.util.List;
 
-@Entity
+
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class KivaLoan {
+public class KivaLoanDAO {
 
-    @Id
     protected int id;
 
     /**
      * Name of the borrower
      */
-    @NotNull
     protected String name;
 
-
-    @NotNull
-    @JoinColumn(name="campaign_id")
-    protected int campaign;
 
     /**
      * Brief description of the loan's intent
@@ -31,7 +22,7 @@ public class KivaLoan {
     protected String use;
 
 
-    protected  KivaImage image;
+    protected KivaImageDAO image;
 
 
     public int getId() {
@@ -46,7 +37,7 @@ public class KivaLoan {
         return use;
     }
 
-    public KivaImage getImage() {
+    public KivaImageDAO getImage() {
         return image;
     }
 
@@ -62,15 +53,15 @@ public class KivaLoan {
         this.use = use;
     }
 
-
-    public void setImage(KivaImage image) {
+    public void setImage(KivaImageDAO image) {
         this.image = image;
     }
 
 
     @Override
     public String toString() {
-        return "{ id: " + id + ", image: \"" + image.getId() + "\", name: \"" + name + "\", use: \"" + use + "\"}";
+        return "{ id: " + id + ", image: \"" + image.toString() + "\", name: \"" + name + "\", use: \"" + use + "\"}";
+
     }
 
 

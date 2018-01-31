@@ -1,5 +1,6 @@
 package com.crowdpoll.kiva;
 
+import com.crowdpoll.kiva.dao.KivaLoanDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.crowdpoll.apiTools.API;
@@ -13,15 +14,17 @@ public class KivaAPI implements API {
 
     private static final Logger log = LoggerFactory.getLogger(KivaAPI.class);
 
-    protected ArrayList<KivaLoan> campaigns;
+    protected ArrayList<KivaLoanDAO> campaigns;
 
-    protected String queryString = "https://api.kivaws.org/v1/loans/search.json?status=fundraising&country_code=US&q=Baltimore";
+    //protected String queryString = "https://api.kivaws.org/v1/loans/search.json?status=fundraising&country_code=US&q=Baltimore";
+    protected String queryString = "https://api.kivaws.org/v1/loans/search.json?status=fundraising&country_code=US";
+
 
     protected String getQueryString() {
         return queryString;
     }
 
-    public ArrayList<KivaLoan> search() {
+    public ArrayList<KivaLoanDAO> search() {
        String url = this.getQueryString();
 
         RestTemplate restTemplate = new RestTemplate();
@@ -37,7 +40,7 @@ public class KivaAPI implements API {
 
     public void pollForCampaigns() {
 
-        ArrayList<KivaLoan> loans;
+        ArrayList<KivaLoanDAO> loans;
         loans = this.search();
 
     }
