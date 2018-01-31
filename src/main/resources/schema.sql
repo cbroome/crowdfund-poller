@@ -3,7 +3,9 @@ CREATE TABLE IF NOT EXISTS campaign (
     id SERIAL,
     summary TEXT,
     url TEXT,
-    description TEXT
+    description TEXT,
+    start_date DATE,
+    end_date DATE
 );
 
 CREATE TABLE IF NOT EXISTS campaign_image (
@@ -12,3 +14,4 @@ CREATE TABLE IF NOT EXISTS campaign_image (
     url TEXT,
     is_primary BOOLEAN
 );
+

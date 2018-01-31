@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 
 @Entity
@@ -27,6 +28,11 @@ public class Campaign {
 
     protected String description;
 
+
+    protected Date start_date;
+
+
+    protected Date end_date;
 
 
 }

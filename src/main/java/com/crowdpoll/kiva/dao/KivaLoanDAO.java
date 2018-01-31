@@ -1,8 +1,9 @@
 package com.crowdpoll.kiva.dao;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.List;
+import java.util.Date;
 
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -25,6 +26,20 @@ public class KivaLoanDAO {
     protected KivaImageDAO image;
 
 
+    @JsonProperty("planned_expiration_date")
+    protected Date plannedExpirationDate;
+
+    @JsonProperty("posted_date")
+    protected Date postedDate;
+
+
+    protected String status;
+
+    @JsonProperty("funded_amount")
+    protected Double fundedAmount;
+
+
+
     public int getId() {
         return id;
     }
@@ -37,8 +52,22 @@ public class KivaLoanDAO {
         return use;
     }
 
-    public KivaImageDAO getImage() {
-        return image;
+    public KivaImageDAO getImage() { return image; }
+
+    public Date getPlannedExpirationDate() {
+        return plannedExpirationDate;
+    }
+
+    public Date getPostedDate() {
+        return postedDate;
+    }
+
+    public Double getFundedAmount() {
+        return fundedAmount;
+    }
+
+    public String getStatus() {
+        return status;
     }
 
     public void setId(int id) {
@@ -57,10 +86,25 @@ public class KivaLoanDAO {
         this.image = image;
     }
 
+    public void setFundedAmount(Double fundedAmount) {
+        this.fundedAmount = fundedAmount;
+    }
+
+    public void setPlannedExpirationDate(Date plannedExpirationDate) {
+        this.plannedExpirationDate = plannedExpirationDate;
+    }
+
+    public void setPostedDate(Date postedDate) {
+        this.postedDate = postedDate;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     @Override
     public String toString() {
-        return "{ id: " + id + ", image: \"" + image.toString() + "\", name: \"" + name + "\", use: \"" + use + "\"}";
+        return "{ id: " + id + ", posted: " +postedDate + ", image: \"" + image.toString() + "\", name: \"" + name + "\", use: \"" + use + "\"}";
 
     }
 
