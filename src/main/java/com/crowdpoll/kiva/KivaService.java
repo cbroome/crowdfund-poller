@@ -1,20 +1,27 @@
 package com.crowdpoll.kiva;
 
 import com.crowdpoll.kiva.dao.KivaLoanDAO;
+import com.crowdpoll.kiva.entities.KivaCampaign;
+import com.crowdpoll.kiva.repositories.KivaCampaignRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.crowdpoll.apiTools.API;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
+@Component
+public class KivaService implements API {
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class KivaAPI implements API {
-
-    private static final Logger log = LoggerFactory.getLogger(KivaAPI.class);
+    private static final Logger log = LoggerFactory.getLogger(KivaService.class);
 
     protected ArrayList<KivaLoanDAO> campaigns;
+
+    @Autowired
+    protected KivaCampaignRepository kcr;
 
     //protected String queryString = "https://api.kivaws.org/v1/loans/search.json?status=fundraising&country_code=US&q=Baltimore";
     protected String queryString = "https://api.kivaws.org/v1/loans/search.json?status=fundraising&country_code=US";
@@ -42,6 +49,22 @@ public class KivaAPI implements API {
 
         ArrayList<KivaLoanDAO> loans;
         loans = this.search();
+
+        // find existing campaigns
+        List<Long> kiva_ids = loans.stream()
+               .map( loan -> loan.getId() )
+                .collect(Collectors.toList());
+
+        log.info( "Total kiva campaigns: " + kiva_ids.toString() );
+
+        List<KivaCampaign> existingCampaigns = kcr.findByIdIn(kiva_ids);
+
+        if( existingCampaigns == null ) {
+            log.info( "No existing kiva campaigns");
+        } else {
+            log.info( "Existing kiva campaigns: " + existingCampaigns.size() );
+        }
+
 
     }
 

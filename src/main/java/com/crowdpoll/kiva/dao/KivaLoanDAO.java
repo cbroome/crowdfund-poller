@@ -9,7 +9,7 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class KivaLoanDAO {
 
-    protected int id;
+    protected Long id;
 
     /**
      * Name of the borrower
@@ -40,7 +40,7 @@ public class KivaLoanDAO {
 
 
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
@@ -70,7 +70,7 @@ public class KivaLoanDAO {
         return status;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

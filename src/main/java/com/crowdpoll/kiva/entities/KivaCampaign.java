@@ -1,16 +1,17 @@
 package com.crowdpoll.kiva.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class KivaLoan {
+public class KivaCampaign {
 
     @Id
     @GeneratedValue
-    protected int id;
+    protected Long id;
 
-
-    protected int campaignId;
+    @Column(name="campaign_id")
+    protected Long campaignId;
 }
