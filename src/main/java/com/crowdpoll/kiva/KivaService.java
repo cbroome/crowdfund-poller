@@ -7,13 +7,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.crowdpoll.apiTools.API;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
+@Service
 public class KivaService implements API {
 
     private static final Logger log = LoggerFactory.getLogger(KivaService.class);
