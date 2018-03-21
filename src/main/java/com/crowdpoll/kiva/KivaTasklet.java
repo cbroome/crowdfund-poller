@@ -12,6 +12,7 @@ public class KivaTasklet implements Tasklet {
 
     private static final Logger log = LoggerFactory.getLogger(KivaTasklet.class);
 
+    @Autowired
     protected KivaService kivaService;
 
 
@@ -27,7 +28,7 @@ public class KivaTasklet implements Tasklet {
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) {
         log.info( "Kiva Tasklet" );
 
-        kivaService.search();
+        kivaService.pollForCampaigns();
 
         return null;
     }

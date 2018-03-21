@@ -20,8 +20,7 @@ public class KivaService implements API {
 
     protected ArrayList<KivaLoanDAO> campaigns;
 
-    @Autowired
-    protected KivaCampaignRepository kcr;
+    protected KivaCampaignRepository repository;
 
     //protected String queryString = "https://api.kivaws.org/v1/loans/search.json?status=fundraising&country_code=US&q=Baltimore";
     protected String queryString = "https://api.kivaws.org/v1/loans/search.json?status=fundraising&country_code=US";
@@ -57,7 +56,7 @@ public class KivaService implements API {
 
         log.info( "Total kiva campaigns: " + kiva_ids.toString() );
 
-        List<KivaCampaign> existingCampaigns = kcr.findByIdIn(kiva_ids);
+        List<KivaCampaign> existingCampaigns = repository.findByIdIn(kiva_ids);
 
         if( existingCampaigns == null ) {
             log.info( "No existing kiva campaigns");
@@ -69,6 +68,7 @@ public class KivaService implements API {
     }
 
 
-
-
+    public void setRepository(KivaCampaignRepository repository) {
+        this.repository = repository;
+    }
 }

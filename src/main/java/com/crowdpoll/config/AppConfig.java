@@ -3,6 +3,7 @@ package com.crowdpoll.config;
 import com.crowdpoll.JobCompletionNotificationListener;
 import com.crowdpoll.kiva.KivaService;
 import com.crowdpoll.kiva.KivaTasklet;
+import com.crowdpoll.kiva.repositories.KivaCampaignRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
@@ -41,8 +42,7 @@ public class AppConfig {
     protected StepBuilderFactory stepBuilderFactory;
 
     @Autowired
-    protected KivaService kivaService;
-
+    protected KivaCampaignRepository kcr;
 
 /*
     @Bean
@@ -59,16 +59,19 @@ public class AppConfig {
     }
  */
     @Bean
-    public static Tasklet kivaTasklet() {
+    public Tasklet kivaTasklet() {
         KivaTasklet kt = new KivaTasklet();
         kt.setKivaService( kivaService() );
         return kt;
     }
 
 
+
     @Bean
-    public static KivaService kivaService() {
-        return new KivaService();
+    public KivaService kivaService() {
+        KivaService ks = new KivaService();
+        ks.setRepository( kcr );
+        return ks;
     }
 
 
