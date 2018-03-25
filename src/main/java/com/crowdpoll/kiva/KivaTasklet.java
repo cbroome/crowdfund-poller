@@ -28,7 +28,11 @@ public class KivaTasklet implements Tasklet {
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) {
         log.info( "Kiva Tasklet" );
 
-        kivaService.pollForCampaigns();
+        try {
+            kivaService.pollForCampaigns();
+        } catch (Exception e) {
+            log.error( e.getLocalizedMessage() );
+        }
 
         return null;
     }

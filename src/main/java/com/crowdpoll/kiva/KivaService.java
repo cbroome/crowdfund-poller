@@ -1,8 +1,10 @@
 package com.crowdpoll.kiva;
 
+import com.crowdpoll.entities.Campaign;
 import com.crowdpoll.kiva.dao.KivaLoanDAO;
 import com.crowdpoll.kiva.entities.KivaCampaign;
 import com.crowdpoll.kiva.repositories.KivaCampaignRepository;
+import com.crowdpoll.repositories.CampaignRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.crowdpoll.apiTools.API;
@@ -18,9 +20,9 @@ public class KivaService implements API {
 
     private static final Logger log = LoggerFactory.getLogger(KivaService.class);
 
-    protected ArrayList<KivaLoanDAO> campaigns;
+    protected KivaCampaignRepository kivaCampaignRepository;
 
-    protected KivaCampaignRepository repository;
+    protected CampaignRepository campaignRepository;
 
     //protected String queryString = "https://api.kivaws.org/v1/loans/search.json?status=fundraising&country_code=US&q=Baltimore";
     protected String queryString = "https://api.kivaws.org/v1/loans/search.json?status=fundraising&country_code=US";
@@ -44,7 +46,7 @@ public class KivaService implements API {
     }
 
 
-    public void pollForCampaigns() {
+    public void pollForCampaigns() throws Exception {
 
         ArrayList<KivaLoanDAO> loans;
         loans = this.search();
@@ -56,19 +58,56 @@ public class KivaService implements API {
 
         log.info( "Total kiva campaigns: " + kiva_ids.toString() );
 
-        List<KivaCampaign> existingCampaigns = repository.findByIdIn(kiva_ids);
+        List<KivaCampaign> existingCampaigns = kivaCampaignRepository.findByIdIn(kiva_ids);
 
         if( existingCampaigns == null ) {
-            log.info( "No existing kiva campaigns");
-        } else {
-            log.info( "Existing kiva campaigns: " + existingCampaigns.size() );
+            throw new Exception("Error constructing empty campaigns");
         }
+
+        List<Long> existingCampaignIDs = existingCampaigns.stream()
+                .map( exist -> exist.getId() )
+                .collect(Collectors.toList());
+
+        log.info( "Existing kiva campaigns: " + existingCampaigns.size() );
+        updateExistingCampaigns(existingCampaignIDs, loans);
+
+
+        saveNewCampaigns(existingCampaignIDs, loans);
 
 
     }
 
 
-    public void setRepository(KivaCampaignRepository repository) {
-        this.repository = repository;
+    public void setKivaCampaignRepository(KivaCampaignRepository repository) {
+        this.kivaCampaignRepository = repository;
+    }
+
+    public void setCampaignRepository(CampaignRepository campaignRepository) {
+        this.campaignRepository = campaignRepository;
+    }
+
+    protected void updateExistingCampaigns(List<Long> existingCampaignIDs, ArrayList<KivaLoanDAO> loans) {
+        log.info( "updating existing campaigns");
+    }
+
+
+    protected void saveNewCampaigns(List<Long> existingCampaignIDs, ArrayList<KivaLoanDAO> loans) {
+        log.info( "Saving new campaigns" );
+
+        List<KivaLoanDAO> filteredLoans = loans.stream()
+                .filter(loan ->  !existingCampaignIDs.contains(loan.getId()) )
+                .collect(Collectors.toList());
+
+        log.info( "New campaigns: " + filteredLoans.toString() );
+
+        filteredLoans.forEach( loan -> {
+            Campaign c = loan.convertToCampaign();
+            campaignRepository.save(c);
+
+            KivaCampaign kc = new KivaCampaign();
+            kc.setCampaignId(c.getId());
+            kc.setId(loan.getId());
+            kivaCampaignRepository.save(kc);
+        });
     }
 }

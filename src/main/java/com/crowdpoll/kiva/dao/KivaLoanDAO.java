@@ -1,5 +1,6 @@
 package com.crowdpoll.kiva.dao;
 
+import com.crowdpoll.entities.Campaign;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -106,6 +107,28 @@ public class KivaLoanDAO {
     public String toString() {
         return "{ id: " + id + ", posted: " +postedDate + ", image: \"" + image.toString() + "\", name: \"" + name + "\", use: \"" + use + "\"}";
 
+    }
+
+
+    public String getPublicURL() {
+        return "http://www.kiva.org/lend/" + id;
+    }
+
+
+    /**
+     * Get a generic capaign representation of the kiva loan
+     *
+     * @return Campaign
+     */
+    public Campaign convertToCampaign() {
+        Campaign campaign = new Campaign();
+
+        campaign.setSummary(name);
+        campaign.setUrl(getPublicURL());
+        campaign.setDescription(use);
+        campaign.setEnd_date(plannedExpirationDate);
+
+        return campaign;
     }
 
 

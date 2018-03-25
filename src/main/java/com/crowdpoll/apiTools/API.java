@@ -9,6 +9,6 @@ public interface API {
     /**
      * Update the current campaigns based on the search query.
      */
-    void pollForCampaigns();
+    void pollForCampaigns() throws Exception;
 
 }

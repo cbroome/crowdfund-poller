@@ -4,6 +4,7 @@ import com.crowdpoll.JobCompletionNotificationListener;
 import com.crowdpoll.kiva.KivaService;
 import com.crowdpoll.kiva.KivaTasklet;
 import com.crowdpoll.kiva.repositories.KivaCampaignRepository;
+import com.crowdpoll.repositories.CampaignRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
@@ -29,8 +30,8 @@ import javax.sql.DataSource;
 @Configuration
 @EnableBatchProcessing
 @ComponentScan(basePackages={"com.crowdpoll.kiva"})
-@EntityScan(basePackages = {"com.crowdpoll.kiva"} )
-@EnableJpaRepositories(basePackages = {"com.crowdpoll.kiva"})
+@EntityScan(basePackages = {"com.crowdpoll.kiva","com.crowdpoll.entities"} )
+@EnableJpaRepositories(basePackages = {"com.crowdpoll.kiva", "com.crowdpoll.repositories"})
 public class AppConfig {
 
     private static final Logger log = LoggerFactory.getLogger(AppConfig.class);
@@ -42,7 +43,10 @@ public class AppConfig {
     protected StepBuilderFactory stepBuilderFactory;
 
     @Autowired
-    protected KivaCampaignRepository kcr;
+    protected KivaCampaignRepository kivaCampaignRepository;
+
+    @Autowired
+    protected CampaignRepository campaignRepository;
 
 /*
     @Bean
@@ -70,7 +74,8 @@ public class AppConfig {
     @Bean
     public KivaService kivaService() {
         KivaService ks = new KivaService();
-        ks.setRepository( kcr );
+        ks.setKivaCampaignRepository( kivaCampaignRepository );
+        ks.setCampaignRepository( campaignRepository );
         return ks;
     }
 
