@@ -1,9 +1,11 @@
 package com.crowdpoll.kiva;
 
 import com.crowdpoll.entities.Campaign;
+import com.crowdpoll.entities.CampaignImage;
 import com.crowdpoll.kiva.dao.KivaLoanDAO;
 import com.crowdpoll.kiva.entities.KivaCampaign;
 import com.crowdpoll.kiva.repositories.KivaCampaignRepository;
+import com.crowdpoll.repositories.CampaignImageRepository;
 import com.crowdpoll.repositories.CampaignRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +24,10 @@ public class KivaService implements API {
 
     protected KivaCampaignRepository kivaCampaignRepository;
 
+
     protected CampaignRepository campaignRepository;
+
+    protected CampaignImageRepository campaignImageRepository;
 
     //protected String queryString = "https://api.kivaws.org/v1/loans/search.json?status=fundraising&country_code=US&q=Baltimore";
     protected String queryString = "https://api.kivaws.org/v1/loans/search.json?status=fundraising&country_code=US";
@@ -86,8 +91,23 @@ public class KivaService implements API {
         this.campaignRepository = campaignRepository;
     }
 
+    public void setCampaignImageRepository(CampaignImageRepository campaignImageRepository) {
+        this.campaignImageRepository = campaignImageRepository;
+    }
+
+
     protected void updateExistingCampaigns(List<Long> existingCampaignIDs, ArrayList<KivaLoanDAO> loans) {
         log.info( "updating existing campaigns");
+
+        List<KivaLoanDAO> filteredLoans = loans.stream()
+                .filter(loan -> existingCampaignIDs.contains(loan.getId()) )
+                .collect(Collectors.toList());
+
+        filteredLoans.forEach( loan -> {
+            Campaign c = loan.convertToCampaign();
+            campaignRepository.save(c);
+        });
+
     }
 
 
@@ -104,10 +124,16 @@ public class KivaService implements API {
             Campaign c = loan.convertToCampaign();
             campaignRepository.save(c);
 
+            // save campaign
             KivaCampaign kc = new KivaCampaign();
             kc.setCampaignId(c.getId());
             kc.setId(loan.getId());
             kivaCampaignRepository.save(kc);
+
+            // save campaign image
+            CampaignImage ci = loan.getImage().getCampaignImage();
+            ci.setCampaign(c);
+            campaignImageRepository.save(ci);
         });
     }
 }

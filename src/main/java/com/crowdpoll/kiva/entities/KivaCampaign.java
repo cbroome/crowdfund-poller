@@ -14,8 +14,6 @@ public class KivaCampaign {
     @Column(name="campaign_id")
     protected Long campaignId;
 
-
-
     public Long getId() {
         return id;
     }

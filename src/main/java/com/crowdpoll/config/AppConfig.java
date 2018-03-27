@@ -4,6 +4,7 @@ import com.crowdpoll.JobCompletionNotificationListener;
 import com.crowdpoll.kiva.KivaService;
 import com.crowdpoll.kiva.KivaTasklet;
 import com.crowdpoll.kiva.repositories.KivaCampaignRepository;
+import com.crowdpoll.repositories.CampaignImageRepository;
 import com.crowdpoll.repositories.CampaignRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +49,9 @@ public class AppConfig {
     @Autowired
     protected CampaignRepository campaignRepository;
 
+    @Autowired
+    protected CampaignImageRepository campaignImageRepository;
+
 /*
     @Bean
     public DataSource dataSource() {
@@ -76,6 +80,7 @@ public class AppConfig {
         KivaService ks = new KivaService();
         ks.setKivaCampaignRepository( kivaCampaignRepository );
         ks.setCampaignRepository( campaignRepository );
+        ks.setCampaignImageRepository(campaignImageRepository);
         return ks;
     }
 

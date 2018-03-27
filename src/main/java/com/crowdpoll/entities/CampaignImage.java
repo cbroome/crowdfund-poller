@@ -24,4 +24,20 @@ public class CampaignImage {
 
     protected Boolean isPrimary;
 
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setCampaign(Campaign campaign) {
+        this.campaign = campaign;
+    }
+
+    public void setPrimary(Boolean primary) {
+        isPrimary = primary;
+    }
 }
