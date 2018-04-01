@@ -10,7 +10,6 @@ import com.crowdpoll.repositories.CampaignRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.crowdpoll.apiTools.API;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class KivaService implements API {
+public class KivaService implements API<KivaLoanDAO> {
 
     private static final Logger log = LoggerFactory.getLogger(KivaService.class);
 
@@ -97,7 +96,6 @@ public class KivaService implements API {
 
 
     protected void updateExistingCampaigns(List<Long> existingCampaignIDs, ArrayList<KivaLoanDAO> loans) {
-        log.info( "updating existing campaigns");
 
         List<KivaLoanDAO> filteredLoans = loans.stream()
                 .filter(loan -> existingCampaignIDs.contains(loan.getId()) )
@@ -112,13 +110,10 @@ public class KivaService implements API {
 
 
     protected void saveNewCampaigns(List<Long> existingCampaignIDs, ArrayList<KivaLoanDAO> loans) {
-        log.info( "Saving new campaigns" );
 
         List<KivaLoanDAO> filteredLoans = loans.stream()
                 .filter(loan ->  !existingCampaignIDs.contains(loan.getId()) )
                 .collect(Collectors.toList());
-
-        log.info( "New campaigns: " + filteredLoans.toString() );
 
         filteredLoans.forEach( loan -> {
             Campaign c = loan.convertToCampaign();
@@ -133,6 +128,7 @@ public class KivaService implements API {
             // save campaign image
             CampaignImage ci = loan.getImage().getCampaignImage();
             ci.setCampaign(c);
+            ci.setPrimary(true);
             campaignImageRepository.save(ci);
         });
     }

@@ -1,8 +1,9 @@
 package com.crowdpoll.apiTools;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public interface API {
+public interface API<D> {
 
     <T> ArrayList<T> search();
 
