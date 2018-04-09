@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class KivaService implements API<KivaLoanDAO> {
+public class KivaService implements API {
 
     private static final Logger log = LoggerFactory.getLogger(KivaService.class);
 
@@ -32,9 +32,10 @@ public class KivaService implements API<KivaLoanDAO> {
     protected String queryString = "https://api.kivaws.org/v1/loans/search.json?status=fundraising&country_code=US";
 
 
-    protected String getQueryString() {
+    public String getQueryString() {
         return queryString;
     }
+
 
     public ArrayList<KivaLoanDAO> search() {
        String url = this.getQueryString();

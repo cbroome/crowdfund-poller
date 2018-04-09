@@ -1,16 +1,26 @@
 package com.crowdpoll.donorsChoose;
 
 import com.crowdpoll.apiTools.API;
-import com.crowdpoll.donorsChoose.dao.DonorsChooseCampaignDAO;
+import com.crowdpoll.donorsChoose.dao.DonorsChooseProposalDAO;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DonorsChooseService implements API<DonorsChooseCampaignDAO> {
+public class DonorsChooseService implements API {
 
 
-    public ArrayList<DonorsChooseCampaignDAO> search() {
-        ArrayList<DonorsChooseCampaignDAO> rv = new ArrayList<DonorsChooseCampaignDAO>();
+    protected String queryString = new String("https://api.donorschoose.org/common/json_feed.html?state=MD&cityName=Baltimore&includeNearbyLocations=false");
+
+
+    @Override
+    public String getQueryString() {
+        return queryString + "&APIKey=DONORSCHOOSE";
+    }
+
+    public ArrayList<DonorsChooseProposalDAO> search() {
+        ArrayList<DonorsChooseProposalDAO> rv = new ArrayList<DonorsChooseProposalDAO>();
+
+
 
         return rv;
     }
@@ -21,11 +31,11 @@ public class DonorsChooseService implements API<DonorsChooseCampaignDAO> {
     }
 
 
-    protected void updateExistingCampaigns(List<Long> existingCampaignIDs, ArrayList<DonorsChooseCampaignDAO> loans) {
+    protected void updateExistingCampaigns(List<Long> existingCampaignIDs, ArrayList<DonorsChooseProposalDAO> loans) {
 
     }
 
-    protected void saveNewCampaigns(List<Long> existingCampaignIDs, ArrayList<DonorsChooseCampaignDAO> loans) {
+    protected void saveNewCampaigns(List<Long> existingCampaignIDs, ArrayList<DonorsChooseProposalDAO> loans) {
 
     }
 
