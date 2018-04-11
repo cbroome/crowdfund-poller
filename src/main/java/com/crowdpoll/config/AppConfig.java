@@ -1,6 +1,8 @@
 package com.crowdpoll.config;
 
 import com.crowdpoll.JobCompletionNotificationListener;
+import com.crowdpoll.donorsChoose.DonorsChooseService;
+import com.crowdpoll.donorsChoose.DonorsChooseTasklet;
 import com.crowdpoll.kiva.KivaService;
 import com.crowdpoll.kiva.KivaTasklet;
 import com.crowdpoll.kiva.repositories.KivaCampaignRepository;
@@ -73,6 +75,14 @@ public class AppConfig {
         return kt;
     }
 
+    @Bean
+    public Tasklet donorsChooseTasklet() {
+        DonorsChooseTasklet dct = new DonorsChooseTasklet();
+        dct.setDonorsChooseService( donorsChooseService() );
+        return dct;
+    }
+
+
 
 
     @Bean
@@ -84,14 +94,31 @@ public class AppConfig {
         return ks;
     }
 
+    @Bean
+    public DonorsChooseService donorsChooseService() {
+        DonorsChooseService dcs = new DonorsChooseService();
+        return dcs;
+    }
+
+
 
     @Bean
     public Step stepKiva() {
-        log.info("Step started");
+        log.info("Kiva step started");
         return stepBuilderFactory.get("step1")
                 .tasklet(kivaTasklet())
                 .build();
     }
+
+
+    @Bean
+    public Step stepDonorsChoose() {
+        log.info("DonorsChoose step started");
+        return stepBuilderFactory.get("step1")
+                .tasklet(donorsChooseTasklet())
+                .build();
+    }
+
 
     @Bean
     public Job importCampaignsFromExternal(JobCompletionNotificationListener listener) throws Exception {
@@ -99,6 +126,7 @@ public class AppConfig {
         return jobBuilderFactory.get("job1")
                 .incrementer(new RunIdIncrementer())
                 .start(stepKiva())
+                .start(stepDonorsChoose())
                 .build();
 
     }

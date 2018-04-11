@@ -2,6 +2,7 @@ package com.crowdpoll.donorsChoose;
 
 import com.crowdpoll.apiTools.API;
 import com.crowdpoll.donorsChoose.dao.DonorsChooseProposalDAO;
+import com.crowdpoll.donorsChoose.dao.DonorsChooseResponseDAO;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -20,9 +21,9 @@ public class DonorsChooseService implements API {
 
     public ArrayList<DonorsChooseProposalDAO> search() {
         RestTemplate restTemplate = new RestTemplate();
-        DonorsChooseResponse response = restTemplate.getForObject(
+        DonorsChooseResponseDAO response = restTemplate.getForObject(
                 getQueryString(),
-                DonorsChooseResponse.class
+                DonorsChooseResponseDAO.class
         );
 
         return response.getProposals();
