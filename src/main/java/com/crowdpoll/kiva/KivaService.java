@@ -3,6 +3,7 @@ package com.crowdpoll.kiva;
 import com.crowdpoll.entities.Campaign;
 import com.crowdpoll.entities.CampaignImage;
 import com.crowdpoll.kiva.dao.KivaLoanDAO;
+import com.crowdpoll.kiva.dao.KivaResponseDAO;
 import com.crowdpoll.kiva.entities.KivaCampaign;
 import com.crowdpoll.kiva.repositories.KivaCampaignRepository;
 import com.crowdpoll.repositories.CampaignImageRepository;
@@ -41,9 +42,9 @@ public class KivaService implements API {
        String url = this.getQueryString();
 
         RestTemplate restTemplate = new RestTemplate();
-        KivaResponse response = restTemplate.getForObject(
+        KivaResponseDAO response = restTemplate.getForObject(
                 url,
-                KivaResponse.class
+                KivaResponseDAO.class
         );
         log.info(response.toString());
 

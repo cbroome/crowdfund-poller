@@ -3,6 +3,7 @@ package com.crowdpoll.config;
 import com.crowdpoll.JobCompletionNotificationListener;
 import com.crowdpoll.donorsChoose.DonorsChooseService;
 import com.crowdpoll.donorsChoose.DonorsChooseTasklet;
+import com.crowdpoll.donorsChoose.repositories.DonorsChooseProposalRepository;
 import com.crowdpoll.kiva.KivaService;
 import com.crowdpoll.kiva.KivaTasklet;
 import com.crowdpoll.kiva.repositories.KivaCampaignRepository;
@@ -32,9 +33,9 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableBatchProcessing
-@ComponentScan(basePackages={"com.crowdpoll.kiva"})
-@EntityScan(basePackages = {"com.crowdpoll.kiva","com.crowdpoll.entities"} )
-@EnableJpaRepositories(basePackages = {"com.crowdpoll.kiva", "com.crowdpoll.repositories"})
+@ComponentScan(basePackages={"com.crowdpoll.kiva", "com.crowdpoll.donorsChoose"})
+@EntityScan(basePackages = {"com.crowdpoll.kiva", "com.crowdpoll.donorsChoose", "com.crowdpoll.entities"} )
+@EnableJpaRepositories(basePackages = {"com.crowdpoll.kiva", "com.crowdpoll.donorsChoose", "com.crowdpoll.repositories"})
 public class AppConfig {
 
     private static final Logger log = LoggerFactory.getLogger(AppConfig.class);
@@ -47,6 +48,9 @@ public class AppConfig {
 
     @Autowired
     protected KivaCampaignRepository kivaCampaignRepository;
+
+    @Autowired
+    protected DonorsChooseProposalRepository donorsChooseProposalRepository;
 
     @Autowired
     protected CampaignRepository campaignRepository;
@@ -97,6 +101,8 @@ public class AppConfig {
     @Bean
     public DonorsChooseService donorsChooseService() {
         DonorsChooseService dcs = new DonorsChooseService();
+        dcs.setDonorsChooseProposalRepository(donorsChooseProposalRepository);
+        dcs.setCampaignRepository( campaignRepository );
         return dcs;
     }
 

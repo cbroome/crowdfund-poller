@@ -1,4 +1,4 @@
-package com.crowdpoll.kiva;
+package com.crowdpoll.kiva.dao;
 
 import com.crowdpoll.kiva.dao.KivaLoanDAO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.ArrayList;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class KivaResponse {
+public class KivaResponseDAO {
 
 
     protected ArrayList<KivaLoanDAO> loans;
