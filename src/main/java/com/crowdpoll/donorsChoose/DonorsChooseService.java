@@ -89,15 +89,29 @@ public class DonorsChooseService implements API {
 
         List<DonorsChooseProposal> existingProposals = donorsChooseProposalRepository.findByIdIn(dcIds);
 
+        if( existingProposals == null ) {
+            throw new Exception("Error constructing empty campaigns");
+        }
+
+        List<Long> existingCampaignIDs = existingProposals.stream()
+                .map( exist -> exist.getId() )
+                .collect(Collectors.toList());
+
+        log.info( "Existing kiva campaigns: " + existingProposals.size() );
+        updateExistingCampaigns(existingCampaignIDs, proposals);
+
+
+        saveNewCampaigns(existingCampaignIDs, proposals);
+
 
     }
 
 
-    protected void updateExistingCampaigns(List<Long> existingCampaignIDs, ArrayList<DonorsChooseProposalDAO> loans) {
+    protected void updateExistingCampaigns(List<Long> existingCampaignIDs, ArrayList<DonorsChooseProposalDAO> proposals) {
 
     }
 
-    protected void saveNewCampaigns(List<Long> existingCampaignIDs, ArrayList<DonorsChooseProposalDAO> loans) {
+    protected void saveNewCampaigns(List<Long> existingCampaignIDs, ArrayList<DonorsChooseProposalDAO> proposals) {
 
     }
 

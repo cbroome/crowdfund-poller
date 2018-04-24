@@ -1,11 +1,13 @@
 package com.crowdpoll.donorsChoose.dao;
 
+import com.crowdpoll.apiTools.APIDAO;
+import com.crowdpoll.entities.Campaign;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DonorsChooseProposalDAO {
+public class DonorsChooseProposalDAO implements APIDAO {
 
     protected long id;
 
@@ -16,6 +18,10 @@ public class DonorsChooseProposalDAO {
     protected String fulfillmentTrailer;
 
     protected Date expirationDate;
+
+    protected  String schoolName;
+
+    protected  String schoolUrl;
 
 
     public long getId() {
@@ -38,6 +44,13 @@ public class DonorsChooseProposalDAO {
         return url;
     }
 
+    public String getSchoolUrl() {
+        return schoolUrl;
+    }
+
+    public String getSchoolName() {
+        return schoolName;
+    }
 
     public void setUrl(String url) {
         this.url = url;
@@ -57,5 +70,25 @@ public class DonorsChooseProposalDAO {
 
     public void setShortDescription(String shortDescription) {
         this.shortDescription = shortDescription;
+    }
+
+    public void setSchoolUrl(String schoolUrl) {
+        this.schoolUrl = schoolUrl;
+    }
+
+    public void setSchoolName(String schoolName) {
+        this.schoolName = schoolName;
+    }
+
+
+    /**
+     * Get a generic capaign representation of the kiva loan
+     *
+     * @return Campaign
+     */
+    public Campaign convertToCampaign() {
+        Campaign campaign = new Campaign();
+
+        return campaign;
     }
 }

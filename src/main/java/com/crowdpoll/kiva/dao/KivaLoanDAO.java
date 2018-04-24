@@ -1,5 +1,6 @@
 package com.crowdpoll.kiva.dao;
 
+import com.crowdpoll.apiTools.APIDAO;
 import com.crowdpoll.entities.Campaign;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,7 +9,7 @@ import java.util.Date;
 
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class KivaLoanDAO {
+public class KivaLoanDAO implements APIDAO {
 
     protected Long id;
 

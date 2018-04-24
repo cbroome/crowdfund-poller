@@ -24,9 +24,9 @@ CREATE TABLE IF NOT EXISTS kiva_campaign (
 );
 
 
-CREATE TABLE IF NOT EXISTS donors_choose_proposal {
+CREATE TABLE IF NOT EXISTS donors_choose_proposal (
     id INTEGER,
     campaign_id INTEGER REFERENCES campaign(id),
-    schoolName TEXT,
-    schoolUrl TEXT
-};
+    school_name TEXT,
+    school_url TEXT
+);
