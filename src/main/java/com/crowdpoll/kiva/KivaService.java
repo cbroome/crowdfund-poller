@@ -1,5 +1,7 @@
 package com.crowdpoll.kiva;
 
+import com.crowdpoll.apiTools.APIDAO;
+import com.crowdpoll.apiTools.APIService;
 import com.crowdpoll.entities.Campaign;
 import com.crowdpoll.entities.CampaignImage;
 import com.crowdpoll.kiva.dao.KivaLoanDAO;
@@ -18,7 +20,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class KivaService implements API {
+public class KivaService extends APIService<KivaLoanDAO> {
 
     private static final Logger log = LoggerFactory.getLogger(KivaService.class);
 
@@ -77,9 +79,7 @@ public class KivaService implements API {
         log.info( "Existing kiva campaigns: " + existingCampaigns.size() );
         updateExistingCampaigns(existingCampaignIDs, loans);
 
-
-        saveNewCampaigns(existingCampaignIDs, loans);
-
+        List<Campaign> newCampaigns = saveNewCampaigns(existingCampaignIDs, loans);
 
     }
 
@@ -97,41 +97,40 @@ public class KivaService implements API {
     }
 
 
-    protected void updateExistingCampaigns(List<Long> existingCampaignIDs, ArrayList<KivaLoanDAO> loans) {
-
-        List<KivaLoanDAO> filteredLoans = loans.stream()
-                .filter(loan -> existingCampaignIDs.contains(loan.getId()) )
+    @Override
+    protected List<KivaLoanDAO> returnExisting(List<Long> existingCampaignIDs, ArrayList<KivaLoanDAO> items) {
+        return items.stream()
+                .filter(item -> existingCampaignIDs.contains(item.getId()) )
                 .collect(Collectors.toList());
-
-        filteredLoans.forEach( loan -> {
-            Campaign c = loan.convertToCampaign();
-            campaignRepository.save(c);
-        });
-
     }
 
 
-    protected void saveNewCampaigns(List<Long> existingCampaignIDs, ArrayList<KivaLoanDAO> loans) {
-
-        List<KivaLoanDAO> filteredLoans = loans.stream()
-                .filter(loan ->  !existingCampaignIDs.contains(loan.getId()) )
+    @Override
+    protected List<KivaLoanDAO> returnNew(List<Long> existingCampaignIDs, ArrayList<KivaLoanDAO> items) {
+        return items.stream()
+                .filter(item -> !existingCampaignIDs.contains(item.getId()) )
                 .collect(Collectors.toList());
+    }
 
-        filteredLoans.forEach( loan -> {
-            Campaign c = loan.convertToCampaign();
-            campaignRepository.save(c);
 
-            // save campaign
-            KivaCampaign kc = new KivaCampaign();
-            kc.setCampaignId(c.getId());
-            kc.setId(loan.getId());
-            kivaCampaignRepository.save(kc);
+    protected void storeAssociatedData(Campaign c, KivaLoanDAO item) {
+        linkToCampaign(c, item);
+        linkToCampaignImage(c, item);
+    }
 
-            // save campaign image
-            CampaignImage ci = loan.getImage().getCampaignImage();
-            ci.setCampaign(c);
-            ci.setPrimary(true);
-            campaignImageRepository.save(ci);
-        });
+    public void linkToCampaign(Campaign campaign, KivaLoanDAO loan){
+        // save campaign
+        KivaCampaign kc = new KivaCampaign();
+        kc.setCampaignId(campaign.getId());
+        kc.setId(loan.getId());
+        kivaCampaignRepository.save(kc);
+    }
+
+    public void linkToCampaignImage(Campaign campaign, KivaLoanDAO loan) {
+        // save campaign image
+        CampaignImage ci = loan.getImage().getCampaignImage();
+        ci.setCampaign(campaign);
+        ci.setPrimary(true);
+        campaignImageRepository.save(ci);
     }
 }

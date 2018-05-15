@@ -5,8 +5,7 @@ import com.crowdpoll.donorsChoose.dao.DonorsChooseProposalDAO;
 import com.crowdpoll.donorsChoose.dao.DonorsChooseResponseDAO;
 import com.crowdpoll.donorsChoose.entities.DonorsChooseProposal;
 import com.crowdpoll.donorsChoose.repositories.DonorsChooseProposalRepository;
-import com.crowdpoll.kiva.KivaService;
-import com.crowdpoll.kiva.repositories.KivaCampaignRepository;
+import com.crowdpoll.entities.Campaign;
 import com.crowdpoll.repositories.CampaignImageRepository;
 import com.crowdpoll.repositories.CampaignRepository;
 import org.slf4j.Logger;
@@ -23,7 +22,7 @@ import java.util.stream.Collectors;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.http.MediaType.TEXT_PLAIN;
 
-public class DonorsChooseService implements API {
+public class DonorsChooseService implements API{
 
     private static final Logger log = LoggerFactory.getLogger(DonorsChooseService.class);
 
@@ -115,4 +114,12 @@ public class DonorsChooseService implements API {
 
     }
 
+
+    public void linkToCampaign(Campaign campaign, DonorsChooseProposalDAO item) {
+
+    }
+
+    public void linkToCampaignImage(Campaign campaign, DonorsChooseProposalDAO item) {
+
+    }
 }

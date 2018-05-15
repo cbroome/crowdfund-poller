@@ -10,4 +10,12 @@ public interface APIDAO {
      * @return
      */
     Campaign convertToCampaign();
+
+    /**
+     *
+     *
+     * @return  the id of the element's source
+     */
+    long getId();
+
 }

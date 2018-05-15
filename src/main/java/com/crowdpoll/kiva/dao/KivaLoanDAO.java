@@ -2,6 +2,7 @@ package com.crowdpoll.kiva.dao;
 
 import com.crowdpoll.apiTools.APIDAO;
 import com.crowdpoll.entities.Campaign;
+import com.crowdpoll.kiva.entities.KivaCampaign;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -42,7 +43,7 @@ public class KivaLoanDAO implements APIDAO {
 
 
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
@@ -104,6 +105,10 @@ public class KivaLoanDAO implements APIDAO {
         this.status = status;
     }
 
+
+
+
+
     @Override
     public String toString() {
         return "{ id: " + id + ", posted: " +postedDate + ", image: \"" + image.toString() + "\", name: \"" + name + "\", use: \"" + use + "\"}";
@@ -131,6 +136,5 @@ public class KivaLoanDAO implements APIDAO {
 
         return campaign;
     }
-
 
 }
