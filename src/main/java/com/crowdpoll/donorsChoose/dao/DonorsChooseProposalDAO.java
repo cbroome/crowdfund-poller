@@ -89,6 +89,11 @@ public class DonorsChooseProposalDAO implements APIDAO {
     public Campaign convertToCampaign() {
         Campaign campaign = new Campaign();
 
+        campaign.setUrl(url);
+        campaign.setSummary(fulfillmentTrailer);
+        campaign.setDescription(shortDescription);
+        campaign.setEnd_date(expirationDate);
+
         return campaign;
     }
 }

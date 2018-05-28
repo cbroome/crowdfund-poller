@@ -1,6 +1,7 @@
 package com.crowdpoll.donorsChoose;
 
 import com.crowdpoll.apiTools.API;
+import com.crowdpoll.apiTools.APIService;
 import com.crowdpoll.donorsChoose.dao.DonorsChooseProposalDAO;
 import com.crowdpoll.donorsChoose.dao.DonorsChooseResponseDAO;
 import com.crowdpoll.donorsChoose.entities.DonorsChooseProposal;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.http.MediaType.TEXT_PLAIN;
 
-public class DonorsChooseService implements API{
+public class DonorsChooseService extends APIService<DonorsChooseProposalDAO> {
 
     private static final Logger log = LoggerFactory.getLogger(DonorsChooseService.class);
 
@@ -96,7 +97,7 @@ public class DonorsChooseService implements API{
                 .map( exist -> exist.getId() )
                 .collect(Collectors.toList());
 
-        log.info( "Existing kiva campaigns: " + existingProposals.size() );
+        log.info( "Existing donor's choose proposals: " + existingProposals.size() );
         updateExistingCampaigns(existingCampaignIDs, proposals);
 
 
@@ -105,21 +106,39 @@ public class DonorsChooseService implements API{
 
     }
 
+    @Override
+    protected List<DonorsChooseProposalDAO> returnExisting(List<Long> existingCampaignIDs, ArrayList<DonorsChooseProposalDAO> items) {
+        return items.stream()
+                .filter(item -> existingCampaignIDs.contains(item.getId()) )
+                .collect(Collectors.toList());
+    }
 
-    protected void updateExistingCampaigns(List<Long> existingCampaignIDs, ArrayList<DonorsChooseProposalDAO> proposals) {
+
+    @Override
+    protected List<DonorsChooseProposalDAO> returnNew(List<Long> existingCampaignIDs, ArrayList<DonorsChooseProposalDAO> items) {
+        return items.stream()
+                .filter(item -> !existingCampaignIDs.contains(item.getId()) )
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    protected void storeAssociatedData(Campaign c, DonorsChooseProposalDAO item) {
+        linkToProposal(c, item);
+    }
+
+    public void linkToProposal(Campaign campaign, DonorsChooseProposalDAO proposal){
+        // save campaign
+        DonorsChooseProposal dcp = new DonorsChooseProposal();
+        dcp.setCampaignId(campaign.getId());
+        dcp.setId(proposal.getId());
+        dcp.setSchoolUrl(proposal.getSchoolUrl());
+        dcp.setSchoolName(proposal.getSchoolName());
+        log.info( "Saving donors choose proposal " + dcp.getId() );
+        donorsChooseProposalRepository.save(dcp);
+    }
+
+    public void linkToCampaignImage(Campaign campaign, DonorsChooseProposalDAO proposal) {
 
     }
 
-    protected void saveNewCampaigns(List<Long> existingCampaignIDs, ArrayList<DonorsChooseProposalDAO> proposals) {
-
-    }
-
-
-    public void linkToCampaign(Campaign campaign, DonorsChooseProposalDAO item) {
-
-    }
-
-    public void linkToCampaignImage(Campaign campaign, DonorsChooseProposalDAO item) {
-
-    }
 }

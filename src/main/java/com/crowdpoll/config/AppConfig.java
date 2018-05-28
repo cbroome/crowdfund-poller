@@ -1,6 +1,7 @@
 package com.crowdpoll.config;
 
 import com.crowdpoll.JobCompletionNotificationListener;
+import com.crowdpoll.PollJobIncrementer;
 import com.crowdpoll.donorsChoose.DonorsChooseService;
 import com.crowdpoll.donorsChoose.DonorsChooseTasklet;
 import com.crowdpoll.donorsChoose.dao.DonorsChooseProposalDAO;
@@ -18,6 +19,8 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.job.builder.FlowBuilder;
+import org.springframework.batch.core.job.flow.Flow;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
@@ -108,7 +112,7 @@ public class AppConfig {
         return dcs;
     }
 
-
+/*
 
     @Bean
     public Step stepKiva() {
@@ -126,15 +130,36 @@ public class AppConfig {
                 .tasklet(donorsChooseTasklet())
                 .build();
     }
+    */
+
+    @Bean
+    public Flow flowKivaPoll() {
+        return new FlowBuilder<Flow>("kivaPollFlow")
+                .start(stepBuilderFactory.get("pollKiva")
+                        .tasklet(kivaTasklet())
+                        .build())
+                .build();
+    }
+
+
+    @Bean
+    public Flow flowDonorsChoosePoll() {
+        return new FlowBuilder<Flow>("donorsChooseFlow")
+                .start(stepBuilderFactory.get("pollDonorsChoose")
+                        .tasklet(donorsChooseTasklet())
+                        .build())
+                .build();
+    }
 
 
     @Bean
     public Job importCampaignsFromExternal(JobCompletionNotificationListener listener) throws Exception {
         log.info("Job started");
         return jobBuilderFactory.get("job1")
-                .incrementer(new RunIdIncrementer())
-                .start(stepKiva())
-                .start(stepDonorsChoose())
+                .incrementer(new PollJobIncrementer())
+                .start(flowDonorsChoosePoll())
+                .split(new SimpleAsyncTaskExecutor()).add(flowKivaPoll())
+                .end()
                 .build();
 
     }

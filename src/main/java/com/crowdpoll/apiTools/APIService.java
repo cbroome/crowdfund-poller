@@ -1,8 +1,11 @@
 package com.crowdpoll.apiTools;
 
 import com.crowdpoll.entities.Campaign;
+import com.crowdpoll.kiva.KivaService;
 import com.crowdpoll.repositories.CampaignImageRepository;
 import com.crowdpoll.repositories.CampaignRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +16,9 @@ import java.util.stream.Collectors;
  *
  */
 abstract public class APIService<T extends APIDAO> implements API  {
+
+    private static final Logger log = LoggerFactory.getLogger(KivaService.class);
+
 
     protected CampaignRepository campaignRepository;
 
@@ -55,7 +61,11 @@ abstract public class APIService<T extends APIDAO> implements API  {
     protected List<Campaign> saveNewCampaigns(List<Long> existingCampaignIDs, ArrayList<T> items) {
          return returnNew(existingCampaignIDs, items).stream().map( item -> {
             Campaign c = item.convertToCampaign();
+            log.info( "Saving campaign " + c.getDescription());
             campaignRepository.save(c);
+
+            campaignRepository.flush();
+            log.info( "New id: " + c.getId() );
 
             storeAssociatedData(c, item);
             return c;

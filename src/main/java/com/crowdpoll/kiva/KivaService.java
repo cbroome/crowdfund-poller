@@ -12,7 +12,6 @@ import com.crowdpoll.repositories.CampaignImageRepository;
 import com.crowdpoll.repositories.CampaignRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.crowdpoll.apiTools.API;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
