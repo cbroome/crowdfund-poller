@@ -11,7 +11,7 @@ public class DonorsChooseProposalDAO implements APIDAO {
 
     protected long id;
 
-    protected String url;
+    protected String fundURL;
 
     protected String shortDescription;
 
@@ -40,8 +40,8 @@ public class DonorsChooseProposalDAO implements APIDAO {
         return shortDescription;
     }
 
-    public String getUrl() {
-        return url;
+    public String getFundURL() {
+        return fundURL;
     }
 
     public String getSchoolUrl() {
@@ -52,8 +52,8 @@ public class DonorsChooseProposalDAO implements APIDAO {
         return schoolName;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setFundURL(String fundURL) {
+        this.fundURL = fundURL;
     }
 
     public void setId(long id) {
@@ -89,7 +89,7 @@ public class DonorsChooseProposalDAO implements APIDAO {
     public Campaign convertToCampaign() {
         Campaign campaign = new Campaign();
 
-        campaign.setUrl(url);
+        campaign.setUrl(fundURL);
         campaign.setSummary(fulfillmentTrailer);
         campaign.setDescription(shortDescription);
         campaign.setEnd_date(expirationDate);

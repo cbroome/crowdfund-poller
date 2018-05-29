@@ -76,9 +76,9 @@ public class KivaService extends APIService<KivaLoanDAO> {
                 .collect(Collectors.toList());
 
         log.info( "Existing kiva campaigns: " + existingCampaigns.size() );
-        updateExistingCampaigns(existingCampaignIDs, loans);
+        updateExistingCampaigns(existingCampaignIDs, loans, campaignRepository);
 
-        List<Campaign> newCampaigns = saveNewCampaigns(existingCampaignIDs, loans);
+        List<Campaign> newCampaigns = saveNewCampaigns(existingCampaignIDs, loans, campaignRepository);
 
     }
 

@@ -49,7 +49,7 @@ abstract public class APIService<T extends APIDAO> implements API  {
 
     abstract protected void storeAssociatedData(Campaign c, T item);
 
-    protected List<Campaign> updateExistingCampaigns(List<Long> existingCampaignIDs, ArrayList<T> items) {
+    protected List<Campaign> updateExistingCampaigns(List<Long> existingCampaignIDs, ArrayList<T> items, CampaignRepository campaignRepository) {
         return returnExisting(existingCampaignIDs, items).stream().map( item -> {
             Campaign c = item.convertToCampaign();
             campaignRepository.save(c);
@@ -58,16 +58,20 @@ abstract public class APIService<T extends APIDAO> implements API  {
     }
 
 
-    protected List<Campaign> saveNewCampaigns(List<Long> existingCampaignIDs, ArrayList<T> items) {
+    protected List<Campaign> saveNewCampaigns(List<Long> existingCampaignIDs, ArrayList<T> items, CampaignRepository campaignRepository) {
          return returnNew(existingCampaignIDs, items).stream().map( item -> {
             Campaign c = item.convertToCampaign();
             log.info( "Saving campaign " + c.getDescription());
-            campaignRepository.save(c);
 
-            campaignRepository.flush();
+            try {
+                campaignRepository.save(c);
+            } catch (Exception e ) {
+                log.error(e.getMessage());
+            }
+
             log.info( "New id: " + c.getId() );
 
-            storeAssociatedData(c, item);
+            //storeAssociatedData(c, item);
             return c;
          }).collect(Collectors.toList());
     }

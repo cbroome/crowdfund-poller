@@ -1,6 +1,5 @@
 package com.crowdpoll.donorsChoose;
 
-import com.crowdpoll.apiTools.API;
 import com.crowdpoll.apiTools.APIService;
 import com.crowdpoll.donorsChoose.dao.DonorsChooseProposalDAO;
 import com.crowdpoll.donorsChoose.dao.DonorsChooseResponseDAO;
@@ -98,10 +97,10 @@ public class DonorsChooseService extends APIService<DonorsChooseProposalDAO> {
                 .collect(Collectors.toList());
 
         log.info( "Existing donor's choose proposals: " + existingProposals.size() );
-        updateExistingCampaigns(existingCampaignIDs, proposals);
+        updateExistingCampaigns(existingCampaignIDs, proposals, campaignRepository);
 
 
-        saveNewCampaigns(existingCampaignIDs, proposals);
+        saveNewCampaigns(existingCampaignIDs, proposals, campaignRepository);
 
 
     }
