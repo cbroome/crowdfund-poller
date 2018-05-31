@@ -69,9 +69,7 @@ abstract public class APIService<T extends APIDAO> implements API  {
                 log.error(e.getMessage());
             }
 
-            log.info( "New id: " + c.getId() );
-
-            //storeAssociatedData(c, item);
+            storeAssociatedData(c, item);
             return c;
          }).collect(Collectors.toList());
     }
