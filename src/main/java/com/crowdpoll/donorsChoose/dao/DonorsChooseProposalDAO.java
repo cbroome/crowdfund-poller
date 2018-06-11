@@ -2,6 +2,7 @@ package com.crowdpoll.donorsChoose.dao;
 
 import com.crowdpoll.apiTools.APIDAO;
 import com.crowdpoll.entities.Campaign;
+import com.crowdpoll.entities.CampaignImage;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Date;
@@ -19,9 +20,11 @@ public class DonorsChooseProposalDAO implements APIDAO {
 
     protected Date expirationDate;
 
-    protected  String schoolName;
+    protected String schoolName;
 
-    protected  String schoolUrl;
+    protected String schoolUrl;
+
+    protected String imageURL;
 
 
     public long getId() {
@@ -52,6 +55,10 @@ public class DonorsChooseProposalDAO implements APIDAO {
         return schoolName;
     }
 
+    public String getImageURL() {
+        return imageURL;
+    }
+
     public void setFundURL(String fundURL) {
         this.fundURL = fundURL;
     }
@@ -80,6 +87,9 @@ public class DonorsChooseProposalDAO implements APIDAO {
         this.schoolName = schoolName;
     }
 
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
 
     /**
      * Get a generic capaign representation of the kiva loan
@@ -95,5 +105,18 @@ public class DonorsChooseProposalDAO implements APIDAO {
         campaign.setEnd_date(expirationDate);
 
         return campaign;
+    }
+
+    /**
+     * Note this does not set the campaign id on purpose.
+     *
+     * @return CampaignImage
+     */
+    public CampaignImage createCampaignImage() {
+        CampaignImage ci = new CampaignImage();
+        ci.setPrimary(true);
+        ci.setUrl(imageURL);
+
+        return ci;
     }
 }

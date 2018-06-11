@@ -109,6 +109,7 @@ public class AppConfig {
         DonorsChooseService dcs = new DonorsChooseService();
         dcs.setDonorsChooseProposalRepository(donorsChooseProposalRepository);
         dcs.setCampaignRepository( campaignRepository );
+        dcs.setCampaignImageRepository( campaignImageRepository );
         return dcs;
     }
 

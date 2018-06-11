@@ -1,6 +1,5 @@
 package com.crowdpoll.kiva;
 
-import com.crowdpoll.apiTools.APIDAO;
 import com.crowdpoll.apiTools.APIService;
 import com.crowdpoll.entities.Campaign;
 import com.crowdpoll.entities.CampaignImage;
@@ -8,8 +7,6 @@ import com.crowdpoll.kiva.dao.KivaLoanDAO;
 import com.crowdpoll.kiva.dao.KivaResponseDAO;
 import com.crowdpoll.kiva.entities.KivaCampaign;
 import com.crowdpoll.kiva.repositories.KivaCampaignRepository;
-import com.crowdpoll.repositories.CampaignImageRepository;
-import com.crowdpoll.repositories.CampaignRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -24,11 +21,6 @@ public class KivaService extends APIService<KivaLoanDAO> {
     private static final Logger log = LoggerFactory.getLogger(KivaService.class);
 
     protected KivaCampaignRepository kivaCampaignRepository;
-
-
-    protected CampaignRepository campaignRepository;
-
-    protected CampaignImageRepository campaignImageRepository;
 
     //protected String queryString = "https://api.kivaws.org/v1/loans/search.json?status=fundraising&country_code=US&q=Baltimore";
     protected String queryString = "https://api.kivaws.org/v1/loans/search.json?status=fundraising&country_code=US";
@@ -85,14 +77,6 @@ public class KivaService extends APIService<KivaLoanDAO> {
 
     public void setKivaCampaignRepository(KivaCampaignRepository repository) {
         this.kivaCampaignRepository = repository;
-    }
-
-    public void setCampaignRepository(CampaignRepository campaignRepository) {
-        this.campaignRepository = campaignRepository;
-    }
-
-    public void setCampaignImageRepository(CampaignImageRepository campaignImageRepository) {
-        this.campaignImageRepository = campaignImageRepository;
     }
 
 

@@ -6,8 +6,7 @@ import com.crowdpoll.donorsChoose.dao.DonorsChooseResponseDAO;
 import com.crowdpoll.donorsChoose.entities.DonorsChooseProposal;
 import com.crowdpoll.donorsChoose.repositories.DonorsChooseProposalRepository;
 import com.crowdpoll.entities.Campaign;
-import com.crowdpoll.repositories.CampaignImageRepository;
-import com.crowdpoll.repositories.CampaignRepository;
+import com.crowdpoll.entities.CampaignImage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -29,19 +28,6 @@ public class DonorsChooseService extends APIService<DonorsChooseProposalDAO> {
     protected String queryString = new String("https://api.donorschoose.org/common/json_feed.html?state=MD&cityName=Baltimore&includeNearbyLocations=false");
 
     protected DonorsChooseProposalRepository donorsChooseProposalRepository;
-
-    protected CampaignRepository campaignRepository;
-
-    protected CampaignImageRepository campaignImageRepository;
-
-
-    public void setCampaignRepository(CampaignRepository campaignRepository) {
-        this.campaignRepository = campaignRepository;
-    }
-
-    public CampaignRepository getCampaignRepository() {
-        return campaignRepository;
-    }
 
     public void setDonorsChooseProposalRepository(DonorsChooseProposalRepository donorsChooseProposalRepository) {
         this.donorsChooseProposalRepository = donorsChooseProposalRepository;
@@ -123,6 +109,7 @@ public class DonorsChooseService extends APIService<DonorsChooseProposalDAO> {
     @Override
     protected void storeAssociatedData(Campaign c, DonorsChooseProposalDAO item) {
         linkToProposal(c, item);
+        linkToCampaignImage(c, item);
     }
 
     public void linkToProposal(Campaign campaign, DonorsChooseProposalDAO proposal){
@@ -137,7 +124,9 @@ public class DonorsChooseService extends APIService<DonorsChooseProposalDAO> {
     }
 
     public void linkToCampaignImage(Campaign campaign, DonorsChooseProposalDAO proposal) {
-
+        CampaignImage ci = proposal.createCampaignImage();
+        ci.setCampaign(campaign);
+        campaignImageRepository.save(ci);
     }
 
 }
