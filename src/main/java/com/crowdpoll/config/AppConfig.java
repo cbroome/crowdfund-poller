@@ -12,6 +12,8 @@ import com.crowdpoll.kiva.dao.KivaLoanDAO;
 import com.crowdpoll.kiva.repositories.KivaCampaignRepository;
 import com.crowdpoll.repositories.CampaignImageRepository;
 import com.crowdpoll.repositories.CampaignRepository;
+import com.crowdpoll.twitter.TwitterTasklet;
+import javafx.concurrent.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
@@ -93,7 +95,11 @@ public class AppConfig {
     }
 
 
-
+    @Bean
+    public Tasklet twitterTasklet() {
+        TwitterTasklet tt = new TwitterTasklet();
+        return tt;
+    }
 
     @Bean
     public KivaService kivaService() {
@@ -149,6 +155,16 @@ public class AppConfig {
                 .start(stepBuilderFactory.get("pollDonorsChoose")
                         .tasklet(donorsChooseTasklet())
                         .build())
+                .build();
+    }
+
+
+    @Bean
+    public Flow scheduleTweets() {
+        return new FlowBuilder<Flow>("tweetFlow")
+                .start(stepBuilderFactory.get("createTweets")
+                    .tasklet(twitterTasklet())
+                    .build())
                 .build();
     }
 
