@@ -172,12 +172,18 @@ public class AppConfig {
     @Bean
     public Job importCampaignsFromExternal(JobCompletionNotificationListener listener) throws Exception {
         log.info("Job started");
+
+
+
         return jobBuilderFactory.get("job1")
                 .incrementer(new PollJobIncrementer())
                 .start(flowDonorsChoosePoll())
                 .split(new SimpleAsyncTaskExecutor()).add(flowKivaPoll())
+                .next(scheduleTweets())
                 .end()
                 .build();
+
+
 
     }
 
