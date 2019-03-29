@@ -1,6 +1,6 @@
 package com.crowdpoll.kiva;
 
-import com.crowdpoll.apiTools.APIService;
+import com.crowdpoll.apiConsumptionTools.APIService;
 import com.crowdpoll.entities.Campaign;
 import com.crowdpoll.entities.CampaignImage;
 import com.crowdpoll.kiva.dao.KivaLoanDAO;

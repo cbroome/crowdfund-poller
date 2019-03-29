@@ -1,10 +1,7 @@
 package com.crowdpoll.entities;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -29,10 +26,12 @@ public class Campaign {
     protected String description;
 
 
-    protected Date start_date;
+    @Column(name="start_date")
+    protected Date startDate;
 
 
-    protected Date end_date;
+    @Column(name="end_date")
+    protected Date endDate;
 
 
     public void setId(long id) {
@@ -43,12 +42,12 @@ public class Campaign {
         this.description = description;
     }
 
-    public void setEnd_date(Date end_date) {
-        this.end_date = end_date;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
-    public void setStart_date(Date start_date) {
-        this.start_date = start_date;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
     public void setSummary(String summary) {

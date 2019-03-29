@@ -1,6 +1,6 @@
 package com.crowdpoll.donorsChoose;
 
-import com.crowdpoll.apiTools.APIService;
+import com.crowdpoll.apiConsumptionTools.APIService;
 import com.crowdpoll.donorsChoose.dao.DonorsChooseProposalDAO;
 import com.crowdpoll.donorsChoose.dao.DonorsChooseResponseDAO;
 import com.crowdpoll.donorsChoose.entities.DonorsChooseProposal;

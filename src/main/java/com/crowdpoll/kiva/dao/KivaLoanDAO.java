@@ -1,8 +1,7 @@
 package com.crowdpoll.kiva.dao;
 
-import com.crowdpoll.apiTools.APIDAO;
+import com.crowdpoll.apiConsumptionTools.APIDAO;
 import com.crowdpoll.entities.Campaign;
-import com.crowdpoll.kiva.entities.KivaCampaign;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -132,7 +131,7 @@ public class KivaLoanDAO implements APIDAO {
         campaign.setSummary(name);
         campaign.setUrl(getPublicURL());
         campaign.setDescription(use);
-        campaign.setEnd_date(plannedExpirationDate);
+        campaign.setEndDate(plannedExpirationDate);
 
         return campaign;
     }

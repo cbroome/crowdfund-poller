@@ -1,9 +1,6 @@
-package com.crowdpoll.apiTools;
-
-import com.crowdpoll.entities.Campaign;
+package com.crowdpoll.apiConsumptionTools;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public interface API{
 

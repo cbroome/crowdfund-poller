@@ -1,6 +1,6 @@
 package com.crowdpoll.donorsChoose.dao;
 
-import com.crowdpoll.apiTools.APIDAO;
+import com.crowdpoll.apiConsumptionTools.APIDAO;
 import com.crowdpoll.entities.Campaign;
 import com.crowdpoll.entities.CampaignImage;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -92,7 +92,7 @@ public class DonorsChooseProposalDAO implements APIDAO {
     }
 
     /**
-     * Get a generic capaign representation of the kiva loan
+     * Get a generic capaign representation of the Donor's Choose loan
      *
      * @return Campaign
      */
@@ -102,7 +102,7 @@ public class DonorsChooseProposalDAO implements APIDAO {
         campaign.setUrl(fundURL);
         campaign.setSummary(fulfillmentTrailer);
         campaign.setDescription(shortDescription);
-        campaign.setEnd_date(expirationDate);
+        campaign.setEndDate(expirationDate);
 
         return campaign;
     }

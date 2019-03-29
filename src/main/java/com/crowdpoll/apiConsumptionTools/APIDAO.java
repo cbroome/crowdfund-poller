@@ -1,4 +1,4 @@
-package com.crowdpoll.apiTools;
+package com.crowdpoll.apiConsumptionTools;
 
 import com.crowdpoll.entities.Campaign;
 
