@@ -9,10 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 
 @RestController
-public class RandomCampaign {
+public class CampainController {
 
 
     @Autowired
@@ -23,12 +24,18 @@ public class RandomCampaign {
      *
      * @return {String}
      */
-    @GetMapping("random")
-    public List<Campaign> getRandom() {
-
-
+    @GetMapping("/campaign/random")
+    public Campaign getRandom() {
         List<Campaign> campaigns = campaignRepository.findAllByEndDateGreaterThan(new Date());
+        Campaign randomCampaign = campaigns.get(new Random().nextInt(campaigns.size()));
+        return randomCampaign;
+    }
 
+
+
+    @GetMapping("/campaign/active")
+    public List<Campaign> getActive() {
+        List<Campaign> campaigns = campaignRepository.findAllByEndDateGreaterThan(new Date());
         return campaigns;
     }
 
