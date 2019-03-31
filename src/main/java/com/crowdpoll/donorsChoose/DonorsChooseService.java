@@ -94,7 +94,7 @@ public class DonorsChooseService extends APIService<DonorsChooseProposalDAO> {
     @Override
     protected List<DonorsChooseProposalDAO> returnExisting(List<Long> existingCampaignIDs, ArrayList<DonorsChooseProposalDAO> items) {
         return items.stream()
-                .filter(item -> existingCampaignIDs.contains(item.getId()) )
+                .filter(item -> existingCampaignIDs.contains( new Long( item.getId()) ) )
                 .collect(Collectors.toList());
     }
 
@@ -102,7 +102,7 @@ public class DonorsChooseService extends APIService<DonorsChooseProposalDAO> {
     @Override
     protected List<DonorsChooseProposalDAO> returnNew(List<Long> existingCampaignIDs, ArrayList<DonorsChooseProposalDAO> items) {
         return items.stream()
-                .filter(item -> !existingCampaignIDs.contains(item.getId()) )
+                .filter(item -> !existingCampaignIDs.contains( new Long( item.getId()) ) )
                 .collect(Collectors.toList());
     }
 
@@ -115,7 +115,7 @@ public class DonorsChooseService extends APIService<DonorsChooseProposalDAO> {
     public void linkToProposal(Campaign campaign, DonorsChooseProposalDAO proposal){
         // save campaign
         DonorsChooseProposal dcp = new DonorsChooseProposal();
-        dcp.setCampaignId(campaign.getId());
+        dcp.setCampaign(campaign);
         dcp.setId(proposal.getId());
         dcp.setSchoolUrl(proposal.getSchoolUrl());
         dcp.setSchoolName(proposal.getSchoolName());

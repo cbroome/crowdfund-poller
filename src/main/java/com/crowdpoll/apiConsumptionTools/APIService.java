@@ -49,15 +49,36 @@ abstract public class APIService<T extends APIDAO> implements API  {
 
     abstract protected void storeAssociatedData(Campaign c, T item);
 
+
+    /**
+     * In case the campaign changed (i.e. end date pushed back) capture the information and update
+     *
+     * @param existingCampaignIDs
+     * @param items
+     * @param campaignRepository
+     * @return
+     */
     protected List<Campaign> updateExistingCampaigns(List<Long> existingCampaignIDs, ArrayList<T> items, CampaignRepository campaignRepository) {
         return returnExisting(existingCampaignIDs, items).stream().map( item -> {
+
             Campaign c = item.convertToCampaign();
-            campaignRepository.save(c);
+
+            // TODO: reenable this later...
+            // campaignRepository.save(c);
+
             return c;
         }).collect(Collectors.toList());
     }
 
 
+    /**
+     * Create a new campaign based on the passed item
+     *
+     * @param existingCampaignIDs
+     * @param items
+     * @param campaignRepository
+     * @return
+     */
     protected List<Campaign> saveNewCampaigns(List<Long> existingCampaignIDs, ArrayList<T> items, CampaignRepository campaignRepository) {
          return returnNew(existingCampaignIDs, items).stream().map( item -> {
             Campaign c = item.convertToCampaign();

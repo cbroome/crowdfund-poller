@@ -1,11 +1,11 @@
 package com.crowdpoll.donorsChoose.entities;
 
+import com.crowdpoll.entities.Campaign;
 import com.crowdpoll.entities.CampaignInfo;
 import com.crowdpoll.entities.CampaignType;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class DonorsChooseProposal implements CampaignInfo {
@@ -13,8 +13,9 @@ public class DonorsChooseProposal implements CampaignInfo {
     @Id
     protected Long id;
 
-    @Column(name="campaign_id")
-    protected Long campaignId;
+    @OneToOne
+    @JoinColumn(name = "campaign_id")
+    protected Campaign campaign;
 
 
     @Column(name="school_name")
@@ -23,9 +24,8 @@ public class DonorsChooseProposal implements CampaignInfo {
     @Column(name="school_url")
     protected String schoolUrl;
 
-
-    public Long getCampaignId() {
-        return campaignId;
+    public Campaign getCampaign() {
+        return campaign;
     }
 
     public Long getId() {
@@ -44,8 +44,8 @@ public class DonorsChooseProposal implements CampaignInfo {
         this.id = id;
     }
 
-    public void setCampaignId(Long campaignId) {
-        this.campaignId = campaignId;
+    public void setCampaign(Campaign campaign) {
+        this.campaign = campaign;
     }
 
     public void setSchoolName(String schoolName) {

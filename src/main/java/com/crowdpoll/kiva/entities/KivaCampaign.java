@@ -1,5 +1,6 @@
 package com.crowdpoll.kiva.entities;
 
+import com.crowdpoll.entities.Campaign;
 import com.crowdpoll.entities.CampaignInfo;
 import com.crowdpoll.entities.CampaignType;
 
@@ -14,23 +15,25 @@ public class KivaCampaign implements CampaignInfo {
     @Id
     protected Long id;
 
-    @Column(name="campaign_id")
-    protected Long campaignId;
+    @OneToOne
+    @JoinColumn(name = "campaign_id")
+    protected Campaign campaign;
+
 
     public Long getId() {
         return id;
     }
 
-    public Long getCampaignId() {
-        return campaignId;
+    public Campaign getCampaign() {
+        return campaign;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public void setCampaignId(Long campaignId) {
-        this.campaignId = campaignId;
+    public void setCampaign(Campaign campaign) {
+        this.campaign = campaign;
     }
 
 }

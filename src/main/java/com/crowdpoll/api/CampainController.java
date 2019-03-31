@@ -13,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -66,35 +63,39 @@ public class CampainController {
      * @return      {String}
      */
     @GetMapping("/campaign/random")
-    public Campaign getRandom() {
+    public ArrayList<CampaignInfo> getRandom() throws Exception {
 
         List<Campaign> campaigns = activeCampaigns();
         Campaign randomCampaign = campaigns.get( new Random().nextInt( campaigns.size() ) );
         Long randomCampaignId = randomCampaign.getId();
 
         Long campaignTypeId;
-        CampaignInfo stuff;
+        ArrayList<CampaignInfo> stuff = new ArrayList<>();
 
         // Get additional information about the campaign
         CampaignType ct = randomCampaign.getCampaignType();
 
         // TODO: find a constant-time way to do this
-
         for( CampaignTypes type : CampaignType.TYPES.keySet() )  {
             campaignTypeId = CampaignType.TYPES.get( type );
-            if( campaignTypeId == ct.getId() ) {
+            if( campaignTypeId.compareTo(ct.getId()) == 0 ) {
                 if( type == CampaignTypes.KIVA ) {
-                    stuff = kivaCampaignRepository.findByCampaignId(randomCampaignId);
+                    stuff.add( kivaCampaignRepository.findByCampaignId( randomCampaignId ) );
+                    break;
                 }
                 else if( type == CampaignTypes.DONORSCHOOSE ) {
-                    stuff = donorsChooseProposalRepository.findByCampaignId( randomCampaignId );
+                    stuff.add( donorsChooseProposalRepository.findByCampaignId( randomCampaignId ) );
+                    break;
+                }
+                else {
+                    throw new Exception( "Unknown campaign type " + campaignTypeId );
                 }
             }
         }
 
 
 
-        return randomCampaign;
+        return stuff;
     }
 
 

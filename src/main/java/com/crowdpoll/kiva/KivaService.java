@@ -47,30 +47,29 @@ public class KivaService extends APIService<KivaLoanDAO> {
 
     public void pollForCampaigns() throws Exception {
 
-        ArrayList<KivaLoanDAO> loans;
-        loans = this.search();
+        ArrayList<KivaLoanDAO> kivaLoans;
+        kivaLoans = this.search();
 
         // find existing campaigns
-        List<Long> kiva_ids = loans.stream()
-               .map( loan -> loan.getId() )
+        List<Long> kiva_ids = kivaLoans.stream()
+               .map( kivaLoan -> kivaLoan.getId() )
                 .collect(Collectors.toList());
 
         log.info( "Total kiva campaigns: " + kiva_ids.toString() );
 
-        List<KivaCampaign> existingCampaigns = kivaCampaignRepository.findByIdIn(kiva_ids);
+        List<KivaCampaign> existingKivaCampaigns = kivaCampaignRepository.findByIdIn(kiva_ids);
 
-        if( existingCampaigns == null ) {
+        if( existingKivaCampaigns == null ) {
             throw new Exception("Error constructing empty campaigns");
         }
 
-        List<Long> existingCampaignIDs = existingCampaigns.stream()
+        List<Long> existingKivaIDs = existingKivaCampaigns.stream()
                 .map( exist -> exist.getId() )
                 .collect(Collectors.toList());
 
-        log.info( "Existing kiva campaigns: " + existingCampaigns.size() );
-        updateExistingCampaigns(existingCampaignIDs, loans, campaignRepository);
-
-        List<Campaign> newCampaigns = saveNewCampaigns(existingCampaignIDs, loans, campaignRepository);
+        log.info( "Existing kiva campaigns: " + existingKivaCampaigns.size() );
+        updateExistingCampaigns(existingKivaIDs, kivaLoans, campaignRepository);
+        saveNewCampaigns(existingKivaIDs, kivaLoans, campaignRepository);
 
     }
 
@@ -80,18 +79,34 @@ public class KivaService extends APIService<KivaLoanDAO> {
     }
 
 
+    /**
+     * Given a list of existing ids and the full set of items returned by the api response, return
+     * those items that already have a corresponding record in the db.
+     *
+     * @param existingCampaignIDs
+     * @param items
+     * @return
+     */
     @Override
     protected List<KivaLoanDAO> returnExisting(List<Long> existingCampaignIDs, ArrayList<KivaLoanDAO> items) {
         return items.stream()
-                .filter(item -> existingCampaignIDs.contains(item.getId()) )
+                .filter(item -> existingCampaignIDs.contains( new Long( item.getId()) ) )
                 .collect(Collectors.toList());
     }
 
 
+    /**
+     * Given a list of existing ids and the full set of items returned by the api response, return
+     * those items that have not been saved yet.
+     *
+     * @param existingCampaignIDs
+     * @param items
+     * @return
+     */
     @Override
     protected List<KivaLoanDAO> returnNew(List<Long> existingCampaignIDs, ArrayList<KivaLoanDAO> items) {
         return items.stream()
-                .filter(item -> !existingCampaignIDs.contains(item.getId()) )
+                .filter(item -> !existingCampaignIDs.contains( new Long( item.getId()) ) )
                 .collect(Collectors.toList());
     }
 
@@ -104,7 +119,7 @@ public class KivaService extends APIService<KivaLoanDAO> {
     public void linkToCampaign(Campaign campaign, KivaLoanDAO loan){
         // save campaign
         KivaCampaign kc = new KivaCampaign();
-        kc.setCampaignId(campaign.getId());
+        kc.setCampaign(campaign);
         kc.setId(loan.getId());
         kivaCampaignRepository.save(kc);
     }
