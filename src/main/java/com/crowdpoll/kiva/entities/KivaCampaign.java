@@ -1,5 +1,7 @@
 package com.crowdpoll.kiva.entities;
 
+import com.crowdpoll.entities.CampaignType;
+
 import javax.persistence.*;
 
 @Entity
@@ -29,4 +31,5 @@ public class KivaCampaign {
     public void setCampaignId(Long campaignId) {
         this.campaignId = campaignId;
     }
+
 }

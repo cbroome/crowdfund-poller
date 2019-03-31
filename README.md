@@ -1,6 +1,6 @@
 # Crowdfunding Poller
 
-This application will poll popular open source websites nightly. It builds a selection of currently active campaigns and
+This application will poll popular open source websites nightly. It builds a selection of currently active campaigns and allows basic perusal. 
 
 
 ## Install

@@ -7,5 +7,7 @@ services:
     restart: always
     environment:
       POSTGRES_PASSWORD: example
+      POSTGRES_USER: scratch_role
+      POSTGRES_DB: crowdfund
     ports:
       - 5432:5432

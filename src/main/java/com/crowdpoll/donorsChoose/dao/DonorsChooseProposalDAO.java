@@ -1,8 +1,11 @@
 package com.crowdpoll.donorsChoose.dao;
 
 import com.crowdpoll.apiConsumptionTools.APIDAO;
+import com.crowdpoll.donorsChoose.entities.DonorsChooseProposal;
 import com.crowdpoll.entities.Campaign;
 import com.crowdpoll.entities.CampaignImage;
+import com.crowdpoll.entities.CampaignType;
+import com.crowdpoll.entities.CampaignTypes;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Date;
@@ -99,6 +102,7 @@ public class DonorsChooseProposalDAO implements APIDAO {
     public Campaign convertToCampaign() {
         Campaign campaign = new Campaign();
 
+        campaign.setCampaignType(CampaignType.factory(CampaignTypes.DONORSCHOOSE));
         campaign.setUrl(fundURL);
         campaign.setSummary(fulfillmentTrailer);
         campaign.setDescription(shortDescription);

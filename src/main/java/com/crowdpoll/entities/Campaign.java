@@ -4,6 +4,7 @@ package com.crowdpoll.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.Set;
 
 
 @Entity
@@ -12,7 +13,7 @@ public class Campaign {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected long id;
+    protected Long id;
 
 
     @NotNull
@@ -34,7 +35,17 @@ public class Campaign {
     protected Date endDate;
 
 
-    public void setId(long id) {
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "campaign_type_id")
+    protected CampaignType campaignType;
+
+
+    @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL)
+    private Set<CampaignImage> imageSet;
+
+
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -58,12 +69,27 @@ public class Campaign {
         this.url = url;
     }
 
+    public void setImageSet(Set<CampaignImage> imageSet) {
+        this.imageSet = imageSet;
+    }
 
-    public long getId() {
+    public void setCampaignType(CampaignType campaignType) {
+        this.campaignType = campaignType;
+    }
+
+    public Set<CampaignImage> getImageSet() {
+        return imageSet;
+    }
+
+    public Long getId() {
         return id;
     }
 
     public String getDescription() {
         return description;
+    }
+
+    public CampaignType getCampaignType() {
+        return campaignType;
     }
 }

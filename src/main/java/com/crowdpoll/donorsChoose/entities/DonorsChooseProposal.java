@@ -1,5 +1,7 @@
 package com.crowdpoll.donorsChoose.entities;
 
+import com.crowdpoll.entities.CampaignType;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -52,4 +54,5 @@ public class DonorsChooseProposal {
     public void setSchoolUrl(String schoolUrl) {
         this.schoolUrl = schoolUrl;
     }
+
 }
