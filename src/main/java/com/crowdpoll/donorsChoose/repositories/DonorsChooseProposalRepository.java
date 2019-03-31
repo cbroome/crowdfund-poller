@@ -12,4 +12,8 @@ public interface DonorsChooseProposalRepository  extends JpaRepository<DonorsCho
 
     List<DonorsChooseProposal> findByCampaignIdIn(List<Long> ids);
 
+
+    DonorsChooseProposal findByCampaignId(Long campaignId);
+
+
 }

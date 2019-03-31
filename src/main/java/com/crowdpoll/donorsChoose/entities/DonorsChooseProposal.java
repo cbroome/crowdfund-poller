@@ -1,5 +1,6 @@
 package com.crowdpoll.donorsChoose.entities;
 
+import com.crowdpoll.entities.CampaignInfo;
 import com.crowdpoll.entities.CampaignType;
 
 import javax.persistence.Column;
@@ -7,7 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class DonorsChooseProposal {
+public class DonorsChooseProposal implements CampaignInfo {
 
     @Id
     protected Long id;

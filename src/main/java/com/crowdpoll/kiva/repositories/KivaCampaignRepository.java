@@ -10,4 +10,7 @@ public interface KivaCampaignRepository extends JpaRepository<KivaCampaign, Long
 
     List<KivaCampaign> findByIdIn(List<Long> ids);
 
+
+    KivaCampaign findByCampaignId(Long campaignId);
+
 }

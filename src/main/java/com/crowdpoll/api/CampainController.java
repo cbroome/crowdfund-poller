@@ -4,6 +4,10 @@ package com.crowdpoll.api;
 import com.crowdpoll.donorsChoose.entities.DonorsChooseProposal;
 import com.crowdpoll.donorsChoose.repositories.DonorsChooseProposalRepository;
 import com.crowdpoll.entities.Campaign;
+import com.crowdpoll.entities.CampaignInfo;
+import com.crowdpoll.entities.CampaignType;
+import com.crowdpoll.entities.CampaignTypes;
+import com.crowdpoll.kiva.repositories.KivaCampaignRepository;
 import com.crowdpoll.repositories.CampaignRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.stream.Collectors;
 
@@ -25,6 +30,9 @@ public class CampainController {
     @Autowired
     DonorsChooseProposalRepository donorsChooseProposalRepository;
 
+    @Autowired
+    KivaCampaignRepository kivaCampaignRepository;
+
 
     /**
      *
@@ -38,7 +46,7 @@ public class CampainController {
 
     /**
      *
-     * @return
+     * @return  Ids for active campaigns
      */
     protected List<Long> activeCampaignIds() {
         List<Campaign> activeCampaigns = activeCampaigns();
@@ -47,19 +55,43 @@ public class CampainController {
                 .collect(Collectors.toList());
     }
 
+
+
+
+
     /**
      * Return a random campaign
      *
-     * @return {String}
+     * @exception   thrown for unknown campaign types
+     * @return      {String}
      */
     @GetMapping("/campaign/random")
     public Campaign getRandom() {
 
+        List<Campaign> campaigns = activeCampaigns();
+        Campaign randomCampaign = campaigns.get( new Random().nextInt( campaigns.size() ) );
+        Long randomCampaignId = randomCampaign.getId();
 
-        List<Campaign> campaigns = campaignRepository.findAllByEndDateGreaterThan(new Date());
-        Campaign randomCampaign = campaigns.get(new Random().nextInt(campaigns.size()));
+        Long campaignTypeId;
+        CampaignInfo stuff;
 
-        List<DonorsChooseProposal> donorsChooseProposals = donorsChooseProposalRepository.findByCampaignIdIn(activeCampaignIds());
+        // Get additional information about the campaign
+        CampaignType ct = randomCampaign.getCampaignType();
+
+        // TODO: find a constant-time way to do this
+
+        for( CampaignTypes type : CampaignType.TYPES.keySet() )  {
+            campaignTypeId = CampaignType.TYPES.get( type );
+            if( campaignTypeId == ct.getId() ) {
+                if( type == CampaignTypes.KIVA ) {
+                    stuff = kivaCampaignRepository.findByCampaignId(randomCampaignId);
+                }
+                else if( type == CampaignTypes.DONORSCHOOSE ) {
+                    stuff = donorsChooseProposalRepository.findByCampaignId( randomCampaignId );
+                }
+            }
+        }
+
 
 
         return randomCampaign;

@@ -19,6 +19,18 @@ public class CampaignType {
     protected String name;
 
 
+    /**
+     * No arg constructor to make Hibernate happy
+     *
+     */
+    public CampaignType() { }
+
+
+    /**
+     * Convenience constructor for quick object creation
+     *
+     * @param id
+     */
     public CampaignType(Long id) {
         this.id = id;
     }

@@ -1,11 +1,12 @@
 package com.crowdpoll.kiva.entities;
 
+import com.crowdpoll.entities.CampaignInfo;
 import com.crowdpoll.entities.CampaignType;
 
 import javax.persistence.*;
 
 @Entity
-public class KivaCampaign {
+public class KivaCampaign implements CampaignInfo {
 
     /**
      * Note the id here maps to Kiva's ID on their API, hence no generation strategy
