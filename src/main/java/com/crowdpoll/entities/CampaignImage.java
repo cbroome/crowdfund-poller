@@ -40,4 +40,17 @@ public class CampaignImage {
     public void setPrimary(Boolean primary) {
         isPrimary = primary;
     }
+
+
+    public long getId() {
+        return id;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public Boolean getPrimary() {
+        return isPrimary;
+    }
 }

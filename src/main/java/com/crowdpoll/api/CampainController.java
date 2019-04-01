@@ -7,7 +7,9 @@ import com.crowdpoll.entities.Campaign;
 import com.crowdpoll.entities.CampaignInfo;
 import com.crowdpoll.entities.CampaignType;
 import com.crowdpoll.entities.CampaignTypes;
+import com.crowdpoll.kiva.entities.KivaCampaign;
 import com.crowdpoll.kiva.repositories.KivaCampaignRepository;
+import com.crowdpoll.repositories.CampaignImageRepository;
 import com.crowdpoll.repositories.CampaignRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +32,8 @@ public class CampainController {
     @Autowired
     KivaCampaignRepository kivaCampaignRepository;
 
+    @Autowired
+    CampaignImageRepository campaignImageRepository;
 
     /**
      *
@@ -80,11 +84,15 @@ public class CampainController {
             campaignTypeId = CampaignType.TYPES.get( type );
             if( campaignTypeId.compareTo(ct.getId()) == 0 ) {
                 if( type == CampaignTypes.KIVA ) {
-                    stuff.add( kivaCampaignRepository.findByCampaignId( randomCampaignId ) );
+                    KivaCampaign kivaCampaign = kivaCampaignRepository.findByCampaignId( randomCampaignId );
+                    kivaCampaign.getCampaign().setImages( campaignImageRepository.findAllByCampaignId( randomCampaignId ) );
+                    stuff.add( kivaCampaign );
                     break;
                 }
                 else if( type == CampaignTypes.DONORSCHOOSE ) {
-                    stuff.add( donorsChooseProposalRepository.findByCampaignId( randomCampaignId ) );
+                    DonorsChooseProposal donorsChooseProposal = donorsChooseProposalRepository.findByCampaignId( randomCampaignId );
+                    donorsChooseProposal.getCampaign().setImages( campaignImageRepository.findAllByCampaignId( randomCampaignId ) );
+                    stuff.add( donorsChooseProposal );
                     break;
                 }
                 else {
@@ -92,8 +100,6 @@ public class CampainController {
                 }
             }
         }
-
-
 
         return stuff;
     }

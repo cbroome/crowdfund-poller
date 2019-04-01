@@ -4,6 +4,7 @@ package com.crowdpoll.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 
@@ -42,7 +43,7 @@ public class Campaign {
 
 
     @OneToMany(mappedBy = "campaign", cascade = CascadeType.ALL)
-    private Set<CampaignImage> imageSet;
+    private List<CampaignImage> images;
 
 
     public void setId(Long id) {
@@ -69,16 +70,16 @@ public class Campaign {
         this.url = url;
     }
 
-    public void setImageSet(Set<CampaignImage> imageSet) {
-        this.imageSet = imageSet;
+    public void setImages(List<CampaignImage> images) {
+        this.images = images;
     }
 
     public void setCampaignType(CampaignType campaignType) {
         this.campaignType = campaignType;
     }
 
-    public Set<CampaignImage> getImageSet() {
-        return imageSet;
+    public List<CampaignImage> getImages() {
+        return images;
     }
 
     public Long getId() {
