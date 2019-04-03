@@ -4,26 +4,21 @@ import com.crowdpoll.JobCompletionNotificationListener;
 import com.crowdpoll.PollJobIncrementer;
 import com.crowdpoll.donorsChoose.DonorsChooseService;
 import com.crowdpoll.donorsChoose.DonorsChooseTasklet;
-import com.crowdpoll.donorsChoose.dao.DonorsChooseProposalDAO;
 import com.crowdpoll.donorsChoose.repositories.DonorsChooseProposalRepository;
 import com.crowdpoll.kiva.KivaService;
 import com.crowdpoll.kiva.KivaTasklet;
-import com.crowdpoll.kiva.dao.KivaLoanDAO;
 import com.crowdpoll.kiva.repositories.KivaCampaignRepository;
 import com.crowdpoll.repositories.CampaignImageRepository;
 import com.crowdpoll.repositories.CampaignRepository;
 import com.crowdpoll.twitter.TwitterTasklet;
-import javafx.concurrent.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
-import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.job.builder.FlowBuilder;
 import org.springframework.batch.core.job.flow.Flow;
-import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -32,11 +27,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-
-
-import javax.sql.DataSource;
 
 
 @Configuration
