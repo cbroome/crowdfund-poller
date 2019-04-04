@@ -6,10 +6,15 @@ plugins {
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 sourceCompatibility = 1.8
 
+compileTestJava {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
 
 
 dependencies {
@@ -18,5 +23,18 @@ dependencies {
     compile("com.h2database:h2")
     compile("org.springframework.boot:spring-boot-starter-batch")
 
+    testCompile "org.mockito:mockito-core:+"
+    testCompile "junit:junit:4.12"
+
     runtime("org.postgresql:postgresql:42.1.4")
+}
+
+task webpack(type: Exec) {
+    inputs.file("package-lock.json").withPathSensitivity(PathSensitivity.RELATIVE)
+    inputs.dir("src/main/resources/static/app").withPathSensitivity(PathSensitivity.RELATIVE)
+    outputs.dir("$buildDir/js")
+    outputs.cacheIf { true }
+
+
+    commandLine "$projectDir/node_modules/.bin/webpack", "src/main/resources/static/app/index.js", "$buildDir/js/bundle.js"
 }
