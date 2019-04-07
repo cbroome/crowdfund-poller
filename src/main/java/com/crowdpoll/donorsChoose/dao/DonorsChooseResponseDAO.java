@@ -1,6 +1,5 @@
 package com.crowdpoll.donorsChoose.dao;
 
-import com.crowdpoll.donorsChoose.dao.DonorsChooseProposalDAO;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.ArrayList;

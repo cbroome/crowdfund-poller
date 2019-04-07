@@ -5,7 +5,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 
 @Entity
@@ -92,5 +91,17 @@ public class Campaign {
 
     public CampaignType getCampaignType() {
         return campaignType;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public Date getEndDate() {
+        return endDate;
     }
 }

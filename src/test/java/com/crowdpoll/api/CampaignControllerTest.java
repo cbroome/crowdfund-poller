@@ -3,7 +3,6 @@ package com.crowdpoll.api;
 import com.crowdpoll.entities.Campaign;
 import org.junit.Test;
 
-
 import java.util.ArrayList;
 import java.util.List;
 

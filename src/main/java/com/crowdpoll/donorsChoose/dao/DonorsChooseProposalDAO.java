@@ -1,7 +1,6 @@
 package com.crowdpoll.donorsChoose.dao;
 
 import com.crowdpoll.apiConsumptionTools.APIDAO;
-import com.crowdpoll.donorsChoose.entities.DonorsChooseProposal;
 import com.crowdpoll.entities.Campaign;
 import com.crowdpoll.entities.CampaignImage;
 import com.crowdpoll.entities.CampaignType;

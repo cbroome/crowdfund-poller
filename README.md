@@ -12,3 +12,6 @@ To run:
 `$ docker-compose -f ./docker/stack.yml up`
 
 Set up your connection details in `src/main/java/resources/application.properties`
+
+
+

@@ -12,10 +12,14 @@ import com.crowdpoll.kiva.repositories.KivaCampaignRepository;
 import com.crowdpoll.repositories.CampaignImageRepository;
 import com.crowdpoll.repositories.CampaignRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 
@@ -67,6 +71,7 @@ public class CampainController {
      * @return      {String}
      */
     @GetMapping("/campaign/random")
+    @CrossOrigin(origins = "http://localhost:8000")
     public ArrayList<CampaignInfo> getRandom() throws Exception {
 
         List<Campaign> campaigns = activeCampaigns();
@@ -105,8 +110,13 @@ public class CampainController {
     }
 
 
-
+    /**
+     * Return all active campaigns
+     *
+     * @return
+     */
     @GetMapping("/campaign/active")
+    @CrossOrigin(origins = "http://localhost:8000")
     public List<Campaign> getActive() {
         return activeCampaigns();
     }

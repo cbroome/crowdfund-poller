@@ -4,7 +4,6 @@ import com.crowdpoll.apiConsumptionTools.APIDAO;
 import com.crowdpoll.entities.Campaign;
 import com.crowdpoll.entities.CampaignType;
 import com.crowdpoll.entities.CampaignTypes;
-import com.crowdpoll.kiva.entities.KivaCampaign;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

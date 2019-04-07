@@ -2,10 +2,8 @@ package com.crowdpoll.donorsChoose.entities;
 
 import com.crowdpoll.entities.Campaign;
 import com.crowdpoll.entities.CampaignInfo;
-import com.crowdpoll.entities.CampaignType;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 public class DonorsChooseProposal implements CampaignInfo {
