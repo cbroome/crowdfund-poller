@@ -35,7 +35,7 @@ public class KivaService extends APIService<KivaLoanDAO> {
     public ArrayList<KivaLoanDAO> search() {
        String url = this.getQueryString();
 
-        RestTemplate restTemplate = new RestTemplate();
+        RestTemplate restTemplate = this.getRestTemplate();
         KivaResponseDAO response = restTemplate.getForObject(
                 url,
                 KivaResponseDAO.class
@@ -112,11 +112,21 @@ public class KivaService extends APIService<KivaLoanDAO> {
     }
 
 
+    /**
+     *
+     * @param c
+     * @param item
+     */
     protected void storeAssociatedData(Campaign c, KivaLoanDAO item) {
         linkToCampaign(c, item);
         linkToCampaignImage(c, item);
     }
 
+    /**
+     *
+     * @param campaign
+     * @param loan
+     */
     public void linkToCampaign(Campaign campaign, KivaLoanDAO loan){
         // save campaign
         KivaCampaign kc = new KivaCampaign();
@@ -125,6 +135,11 @@ public class KivaService extends APIService<KivaLoanDAO> {
         kivaCampaignRepository.save(kc);
     }
 
+    /**
+     *
+     * @param campaign
+     * @param loan
+     */
     public void linkToCampaignImage(Campaign campaign, KivaLoanDAO loan) {
         // save campaign image
         CampaignImage ci = loan.getImage().getCampaignImage();

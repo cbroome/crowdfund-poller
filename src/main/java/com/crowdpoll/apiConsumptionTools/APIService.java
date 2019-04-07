@@ -6,6 +6,7 @@ import com.crowdpoll.repositories.CampaignImageRepository;
 import com.crowdpoll.repositories.CampaignRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,6 +94,11 @@ abstract public class APIService<T extends APIDAO> implements API  {
             storeAssociatedData(c, item);
             return c;
          }).collect(Collectors.toList());
+    }
+
+
+    protected RestTemplate getRestTemplate() {
+        return new RestTemplate();
     }
 
 }
