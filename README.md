@@ -20,7 +20,7 @@ The frontend is written in React. Gatsby is used to host it.
 
 ## Install
 
-THis is a Java 8 application and should not be used with a later JDK
+THis is a Java 8 application and should not be used with a later JDK.
 
 ### Database
 
@@ -47,12 +47,7 @@ This will launch the application on port 8080. As a result of the first run the 
 
 ### Frontend
 
-To run the frontend you'll need to have Gatsby installed: 
-
-`npm install -g gatsby`
-
-Afterwards change your working directory to `frontend`. Run `npm install` to gather all required modules
-
+On running the jar the frontend should be available on localhost:8080 by default. 
 
 ## TODO
 
