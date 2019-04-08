@@ -1,6 +1,7 @@
 import Model from './model';
 import KivaModel from './campaign/kivaModel';
 import DonorModel from './campaign/donorModel';
+import 'isomorphic-fetch';
 
 class CampaignModel extends Model {
 
@@ -46,7 +47,7 @@ class CampaignModel extends Model {
     fetchCampaign( handler ) {
 
         fetch(
-                'campaign/random'
+                'http://localhost:8080/campaign/random'
             )
             .then( ( response ) => {
                 return response.json();
