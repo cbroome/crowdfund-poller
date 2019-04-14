@@ -82,7 +82,7 @@ public class DonorsChooseService extends APIService<DonorsChooseProposalDAO> {
                 .map( exist -> exist.getId() )
                 .collect(Collectors.toList());
 
-        log.info( "Existing donor's choose proposals: " + existingProposals.size() );
+        log.info( "Existing donor's choose proposals: {} ", existingProposals.size() );
         updateExistingCampaigns(existingCampaignIDs, proposals, campaignRepository);
 
 
@@ -119,7 +119,7 @@ public class DonorsChooseService extends APIService<DonorsChooseProposalDAO> {
         dcp.setId(proposal.getId());
         dcp.setSchoolUrl(proposal.getSchoolUrl());
         dcp.setSchoolName(proposal.getSchoolName());
-        log.info( "Saving donors choose proposal " + dcp.getId() );
+        log.info( "Saving donors choose proposal {}", dcp.getId() );
         donorsChooseProposalRepository.save(dcp);
     }
 
