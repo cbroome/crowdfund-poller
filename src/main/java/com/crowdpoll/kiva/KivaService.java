@@ -56,7 +56,7 @@ public class KivaService extends APIService<KivaLoanDAO> {
                .map( kivaLoan -> kivaLoan.getId() )
                 .collect(Collectors.toList());
 
-        log.info( "Total kiva campaigns: " + kiva_ids.toString() );
+        log.info( "Total kiva campaigns: {}", kiva_ids.toString() );
 
         List<KivaCampaign> existingKivaCampaigns = kivaCampaignRepository.findByIdIn(kiva_ids);
 
@@ -68,7 +68,7 @@ public class KivaService extends APIService<KivaLoanDAO> {
                 .map( exist -> exist.getId() )
                 .collect(Collectors.toList());
 
-        log.info( "Existing kiva campaigns: " + existingKivaCampaigns.size() );
+        log.info( "Existing kiva campaigns: {}", existingKivaCampaigns.size() );
         updateExistingCampaigns(existingKivaIDs, kivaLoans, campaignRepository);
         saveNewCampaigns(existingKivaIDs, kivaLoans, campaignRepository);
 
